@@ -30,7 +30,7 @@ Header:
 .Version ;V0.1
     db $01
 
-ORG $80FFE0
+org $80FFE0
 CPUVector:
     dw $0000,$0000
 .COPNative
@@ -79,9 +79,38 @@ ResetHandlerEmu:
 
     REP #$38                  ; Disable decimal mode; widen A, X and Y to 16-bit
     LDA #$0000                ;\ Set the Direct Page $000000-FF
+    STA.b DirectPage.TilemapAddressLayer1Mirror
+    STA.b DirectPage.TilemapAddressLayer3Mirror
+    STA.b DirectPage.GraphicsAddressLayer12Mirror
+    STA.b DirectPage.HScrollLayer1Mirror
+    STA.b DirectPage.VScrollLayer1Mirror
+    STA.b DirectPage.HScrollLayer2Mirror
+    STA.b DirectPage.VScrollLayer2Mirror
+    STA.b DirectPage.HScrollLayer3Mirror
+    STA.b DirectPage.VScrollLayer3Mirror
+    STA.b DirectPage.HScrollLayer4Mirror
+    STA.b DirectPage.VScrollLayer4Mirror
     TCD                       ;/             (mirror of $7E0000-FF)
     LDA #!Stack               ;\ Set the Stack Pointer
     TCS                       ;/
+    SEP #$20
+
+    STZ.w CGRAMQueue.Length
+    STZ.w VRAMQueue.Length
+
+    LDA #$01
+    STA.b DirectPage.ChangeLayerConfigFlag
+    STA.b DirectPage.InterruptRunning
+    STA.b DirectPage.ModeMirror
+
+    LDA #$81
+    STA $4200
+-
+    LDA.b DirectPage.InterruptRunning
+    BEQ -
+    CLI
+    STZ.b DirectPage.InterruptRunning
+    BRA -
 
 IRQHandlerEmu:
 IRQHandlerNative:
@@ -95,4 +124,4 @@ AbortHandlerNative:
 AbortHandlerEmu:
     STP
 
-incsrc "IRQ.asm"
+incsrc "NMI/NMI.asm"
