@@ -47,10 +47,3 @@ struct CGRAMQueue
 endstruct
 skip sizeof(CGRAMQueue)
 pullpc
-print hex(DirectPage)
-print hex(sizeof(DirectPage))
-print hex(OAMBuffer_TileXYNumberProp)
-print hex(OAMBuffer_SizesCompressed)
-print hex(OAMBuffer_Sizes)
-print hex(VRAMQueue)
-print hex(CGRAMQueue)
