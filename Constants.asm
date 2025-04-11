@@ -1,3 +1,4 @@
+!sa1 = 0
 !Stack = $01FF
 !DMAChannel = 0
 !DMARegOR #= !DMAChannel<<4 

@@ -1,5 +1,6 @@
 incsrc "Constants.asm"
 incsrc "Variables.asm"
+incsrc "MacrosInclude.asm"
 
 incsrc "Setup/Header.asm"
 incsrc "Setup/CPUVector.asm"
@@ -35,15 +36,28 @@ ResetHandlerEmu:
     STA.b DirectPage.VScrollLayer3Mirror
     STA.b DirectPage.HScrollLayer4Mirror
     STA.b DirectPage.VScrollLayer4Mirror
+    STA.b DirectPage.ColorMathConfigMirror
+    STA.b DirectPage.MainScreenDesignationMirror
+    STA.b DirectPage.WindowSettingsLayer12Mirror
+    STA.b DirectPage.WindowSettingsObjectAndColorWindowMirror
+    STA.b DirectPage.MainScreenWindowMaskMirror
+    STA.b DirectPage.SubScreenWindowMaskMirror
+
     TCD                       ;/             (mirror of $7E0000-FF)
     LDA #!Stack               ;\ Set the Stack Pointer
     TCS                       ;/
     SEP #$20
 
+    STZ.b DirectPage.UseWindowFlag
+    STZ.w Gamemode_Index
+    STZ.w Levels_Index
     STZ.w CGRAMQueue.Length
     STZ.w VRAMQueue.Length
 
     LDA #$01
+    STA.b DirectPage.ChangeColorMathConfigFlag
+    STA.b DirectPage.ChangeMainSubScreenConfigFlag
+    STA.b DirectPage.ChangeWindowConfigFlag
     STA.b DirectPage.ChangeLayerConfigFlag
     STA.b DirectPage.InterruptRunning
     STA.b DirectPage.ModeMirror
@@ -54,9 +68,23 @@ ResetHandlerEmu:
     LDA.b DirectPage.InterruptRunning
     BEQ -
     CLI
+    LDA #$01
+    STA $4200
+    JSR GamemodeCall
+    JSR ProcessFixedColor
     STZ.b DirectPage.InterruptRunning
+    LDA #$81
+    STA $4200
+    WAI
     BRA -
 
-incsrc "COPBRKAbort/COPBRKAbort.asm"
-incsrc "IRQ/IRQ.asm"
-incsrc "NMI/NMI.asm"
+incsrc "Setup/CPUVector/COP.asm"
+incsrc "Setup/CPUVector/BRK.asm"
+incsrc "Setup/CPUVector/Abort.asm"
+incsrc "Setup/CPUVector/IRQ/IRQ.asm"
+incsrc "Setup/CPUVector/NMI/NMI.asm"
+
+incsrc "Gamemodes/GamemodeManagement.asm"
+
+incsrc "Routines/RoutinesInclude.asm"
+incsrc "Resources/ResourceInclude.asm"

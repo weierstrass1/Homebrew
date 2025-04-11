@@ -9,19 +9,70 @@ NMIHandlerNative:
     PHY
     SEP #$30
 
-    LDA.b DirectPage.ScreenDisplayMirror
-    STA $2100
+    LDA #$80
+    TSB $2100
+
     LDA.b DirectPage.OAMSizeAndAddressMirror
     STA $2101
     LDA.b DirectPage.PixelationMirror
     STA $2106
 
+    LDA.b DirectPage.ChangeColorMathConfigFlag
+    BEQ +
+    STZ.b DirectPage.ChangeColorMathConfigFlag
+
+    LDA.b DirectPage.ColorMathConfigMirror
+    STA $2131
+    LDA.b DirectPage.ColorAdditionSelectMirror
+    STA $2130
++
+
+    LDA.b DirectPage.ChangeMainSubScreenConfigFlag
+    BEQ +
+    STZ.b DirectPage.ChangeMainSubScreenConfigFlag
+
+    LDA.b DirectPage.MainScreenDesignationMirror
+    STA $212C
+    LDA.b DirectPage.SubScreenDesignation
+    STA $212D
++
+
+    LDA.b DirectPage.ChangeWindowConfigFlag
+    BEQ +
+    STZ.b DirectPage.ChangeWindowConfigFlag
+
+    LDA.b DirectPage.WindowSettingsLayer12Mirror
+    STA $2123
+    LDA.b DirectPage.WindowSettingsLayer34Mirror
+    STA $2124
+    LDA.b DirectPage.WindowSettingsObjectAndColorWindowMirror
+    STA $2125
+    LDA.b DirectPage.MainScreenWindowMaskMirror
+    STA $212A
+    LDA.b DirectPage.SubScreenWindowMaskMirror
+    STA $212B
++
+
+    LDA.b DirectPage.UseWindowFlag
+    BEQ +
+    LDA.b DirectPage.Window1LeftMirror
+    STA $2126
+    LDA.b DirectPage.Window1RightMirror
+    STA $2127
+    LDA.b DirectPage.Window2LeftMirror
+    STA $2128
+    LDA.b DirectPage.Window2RightMirror
+    STA $2129
++
+
     LDA.b DirectPage.ChangeLayerConfigFlag
     BEQ +
     STZ.b DirectPage.ChangeLayerConfigFlag
+
     LDA.b DirectPage.ModeMirror
     STA $2105
     STA.b DirectPage.ModeReadMirror
+
     REP #$20
     LDA.b DirectPage.TilemapAddressLayer1Mirror
     STA $2107
@@ -31,6 +82,13 @@ NMIHandlerNative:
     STA $210B
     SEP #$20
 +
+    LDA.b DirectPage.FixedColorNMIMirror
+    STA $2132
+    LDA.b DirectPage.FixedColorNMIMirror+1
+    STA $2132
+    LDA.b DirectPage.FixedColorNMIMirror+2
+    STA $2132
+
     LDA.b DirectPage.ModeReadMirror
     AND #$07
     ASL
@@ -44,8 +102,6 @@ NMIHandlerNative:
     PHK
     PLB
 
-    INC.b DirectPage.InterruptRunning
-
     LDY #!DMAEnabler
 
     JSR VRAMQueueRoutine
@@ -58,12 +114,17 @@ NMIHandlerNative:
     PLX
     PLA
     SEP #$30
+
+    LDA #$80
+    TRB $2100
     PLP
     PLB
+    INC.b DirectPage.InterruptRunning
 RTI
 
 incsrc "VRAMQueue.asm"
 incsrc "CGRAMQueue.asm"
+incsrc "FixedColor.asm"
 
 ScrollMovementRoutines:
     dw .L4

@@ -18,13 +18,13 @@ RTS
     STA.b $05|!DMARegOR                   ;Load Length
 
     SEP #$20
-    LDA.w CGRAMQueue.SourceAddress+2,x
 
     PHX
     TXA
     LSR
     TAX
 
+    LDA.w CGRAMQueue.SourceAddress+2,x
     STA.b $04|!DMARegOR
     LDA.w CGRAMQueue.CGRAMOffset,x
     PLX
