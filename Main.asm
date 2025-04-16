@@ -24,6 +24,8 @@ ResetHandlerEmu:
     XCE                       ;/
 
     REP #$38                  ; Disable decimal mode; widen A, X and Y to 16-bit
+    LDA #!DMAInitialMaxDataPerFrame
+    STA.w DMAMaxDataPerFrame
     LDA #$0000                ;\ Set the Direct Page $000000-FF
     STA.b DirectPage.TilemapAddressLayer1Mirror
     STA.b DirectPage.TilemapAddressLayer3Mirror
@@ -70,18 +72,25 @@ ResetHandlerEmu:
     STA.b DirectPage.InterruptRunning
     STA.b DirectPage.ModeMirror
 
+    LDA $4210
     LDA #$81
     STA $4200
 -
     LDA.b DirectPage.InterruptRunning
     BEQ -
     CLI
+    
     LDA #$01
     STA $4200
+    STZ.w DMACurrentDataSent
+    STZ.w DMACurrentDataSent+1
     JSR SetupScrollNextFrame
     JSR GamemodeCall
     JSR ProcessFixedColor
+    
     STZ.b DirectPage.InterruptRunning
+
+    LDA $4210
     LDA #$81
     STA $4200
     WAI

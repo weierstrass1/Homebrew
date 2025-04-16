@@ -80,8 +80,8 @@ struct Scroll
 endstruct
 skip sizeof(Scroll)
 
-CurrentDataSent: skip 2
-MaxDataPerFrame: skip 2
+DMACurrentDataSent: skip 2
+DMAMaxDataPerFrame: skip 2
 
 namespace Levels
     Index: skip 1

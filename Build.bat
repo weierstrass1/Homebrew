@@ -1,3 +1,3 @@
 cd asar
-asar ../Main.asm
+asar --symbols=wla ../Main.asm
 pause

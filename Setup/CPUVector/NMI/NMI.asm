@@ -1,13 +1,8 @@
 NMIHandlerEmu:
 NMIHandlerNative:
+    LDA $4210
     SEI ;Set Interrupt flag so routine can start
     PHB
-    PHP
-    REP #$30
-    PHA
-    PHX
-    PHY
-    SEP #$30
 
     LDA #$80
     TSB $2100
@@ -110,14 +105,10 @@ NMIHandlerNative:
     REP #$30
     LDA #$0000                ;\ Set the Direct Page $004300-FF
     TCD                       ;/ (mirror of $7E0000-FF)
-    PLY
-    PLX
-    PLA
     SEP #$30
 
     LDA #$80
     TRB $2100
-    PLP
     PLB
     INC.b DirectPage.InterruptRunning
 RTI
