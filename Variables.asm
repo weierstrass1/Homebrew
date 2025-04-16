@@ -68,6 +68,18 @@ struct CGRAMQueue
 endstruct
 skip sizeof(CGRAMQueue)
 
+struct Scroll
+    .HScrollLayer1NextFrame: skip 2
+    .VScrollLayer1NextFrame: skip 2
+    .HScrollLayer2NextFrame: skip 2
+    .VScrollLayer2NextFrame: skip 2
+    .HScrollLayer3NextFrame: skip 2
+    .VScrollLayer3NextFrame: skip 2
+    .HScrollLayer4NextFrame: skip 2
+    .VScrollLayer4NextFrame: skip 2
+endstruct
+skip sizeof(Scroll)
+
 CurrentDataSent: skip 2
 MaxDataPerFrame: skip 2
 
@@ -82,6 +94,38 @@ namespace Gamemode
         Step: skip 1
     namespace off
 namespace off
+
+namespace Entities
+    FirstSlot: skip 1
+    LastSlot: skip 1
+    Length: skip 1
+    CurrentSpriteSlot: skip 2
+    PreviousSlot: skip 128
+    NextSlot: skip 128
+namespace off
+
+struct Entity !MainRAMBank+$010000
+    .X: skip 3
+    .Y: skip 3
+    .XSpeed: skip 2
+    .YSpeed: skip 2
+    .XAccel: skip 2
+    .YAccel: skip 2
+    .HitboxSetIndex: skip 2
+    .TerrainInteractionIndex: skip 2
+    .State: skip 2
+    .PoseIndex: skip 2
+    .LastPoseIndex: skip 2
+    .LastPoseHashIndex: skip 1
+    .GlobalFlip: skip 1
+    .LocalFlip: skip 1
+    .LastFlip: skip 1
+    .AnimationIndex: skip 1
+    .AnimationPoseIndex: skip 1
+    .AnimationTimer: skip 1
+    .OthersVariables:
+endstruct align 256
+skip sizeof(Entity)*128
 namespace nested off
 pullpc
 

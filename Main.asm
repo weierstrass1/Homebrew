@@ -36,6 +36,14 @@ ResetHandlerEmu:
     STA.b DirectPage.VScrollLayer3Mirror
     STA.b DirectPage.HScrollLayer4Mirror
     STA.b DirectPage.VScrollLayer4Mirror
+    STA.w Scroll.HScrollLayer1NextFrame
+    STA.w Scroll.VScrollLayer1NextFrame
+    STA.w Scroll.HScrollLayer2NextFrame
+    STA.w Scroll.VScrollLayer2NextFrame
+    STA.w Scroll.HScrollLayer3NextFrame
+    STA.w Scroll.VScrollLayer3NextFrame
+    STA.w Scroll.HScrollLayer4NextFrame
+    STA.w Scroll.VScrollLayer4NextFrame
     STA.b DirectPage.ColorMathConfigMirror
     STA.b DirectPage.MainScreenDesignationMirror
     STA.b DirectPage.WindowSettingsLayer12Mirror
@@ -70,6 +78,7 @@ ResetHandlerEmu:
     CLI
     LDA #$01
     STA $4200
+    JSR SetupScrollNextFrame
     JSR GamemodeCall
     JSR ProcessFixedColor
     STZ.b DirectPage.InterruptRunning
@@ -85,6 +94,7 @@ incsrc "Setup/CPUVector/IRQ/IRQ.asm"
 incsrc "Setup/CPUVector/NMI/NMI.asm"
 
 incsrc "Gamemodes/GamemodeManagement.asm"
+incsrc "Scroll/ScrollingSystem.asm"
 
 incsrc "Routines/RoutinesInclude.asm"
 incsrc "Resources/ResourceInclude.asm"

@@ -45,21 +45,21 @@ GraphicSetup:
     STA.b DirectPage.MainScreenWindowMaskMirror
 
     LDA.w ConfigPerLevel+$12,x
-    STA.b DirectPage.HScrollLayer1Mirror
+    STA.w Scroll.HScrollLayer1NextFrame
     LDA.w ConfigPerLevel+$14,x
-    STA.b DirectPage.VScrollLayer1Mirror
+    STA.w Scroll.VScrollLayer1NextFrame
     LDA.w ConfigPerLevel+$16,x
-    STA.b DirectPage.HScrollLayer2Mirror
+    STA.w Scroll.HScrollLayer2NextFrame
     LDA.w ConfigPerLevel+$18,x
-    STA.b DirectPage.VScrollLayer2Mirror
+    STA.w Scroll.VScrollLayer2NextFrame
     LDA.w ConfigPerLevel+$1A,x
-    STA.b DirectPage.HScrollLayer3Mirror
+    STA.w Scroll.HScrollLayer3NextFrame
     LDA.w ConfigPerLevel+$1C,x
-    STA.b DirectPage.VScrollLayer3Mirror
+    STA.w Scroll.VScrollLayer3NextFrame
     LDA.w ConfigPerLevel+$1E,x
-    STA.b DirectPage.HScrollLayer4Mirror
+    STA.w Scroll.HScrollLayer4NextFrame
     LDA.w ConfigPerLevel+$20,x
-    STA.b DirectPage.VScrollLayer4Mirror
+    STA.w Scroll.VScrollLayer4NextFrame
 
     LDA.w ConfigPerLevel+$22,x
     STA.b DirectPage.FixedColorCPUMirror
