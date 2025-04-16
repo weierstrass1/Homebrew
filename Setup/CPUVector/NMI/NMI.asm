@@ -69,7 +69,6 @@ NMIHandlerNative:
 
     LDA.b DirectPage.ModeMirror
     STA $2105
-    STA.b DirectPage.ModeReadMirror
 
     REP #$20
     LDA.b DirectPage.TilemapAddressLayer1Mirror

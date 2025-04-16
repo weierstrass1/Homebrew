@@ -5,7 +5,6 @@ struct DirectPage !MainRAMBank
     .InterruptRunning: skip 1
     .OAMSizeAndAddressMirror: skip 1
     .ModeMirror: skip 1
-    .ModeReadMirror: skip 1
     .PixelationMirror: skip 1
     .ChangeLayerConfigFlag: skip 1
     .ChangeMainSubScreenConfigFlag: skip 1
