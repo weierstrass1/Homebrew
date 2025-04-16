@@ -41,6 +41,7 @@ struct DirectPage !MainRAMBank
     .VScrollLayer4Mirror: skip 2
     .FixedColorCPUMirror: skip 2
     .FixedColorNMIMirror: skip 3
+    .HDMAEnablerMirror: skip 1
     .GamemodeIndexer: skip 2
     .LevelIndexer: skip 2
 endstruct
@@ -80,8 +81,11 @@ struct Scroll
 endstruct
 skip sizeof(Scroll)
 
-DMACurrentDataSent: skip 2
-DMAMaxDataPerFrame: skip 2
+namespace NMI
+    DMACurrentDataSent: skip 2
+    DMAMaxDataPerFrame: skip 2
+    ScrollRoutine: skip 2
+namespace off
 
 namespace Levels
     Index: skip 1

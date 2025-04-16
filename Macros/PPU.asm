@@ -16,8 +16,8 @@ macro ForcedTransferToVRAM(VRAMOffset, ResourceAddr, ResourceBNK, Lenght)
     LDA<Lenght>
     STA.w VRAMQueue.SourceLength,x
     CLC
-    ADC.w DMACurrentDataSent
-    STA.w DMACurrentDataSent
+    ADC.w NMI_DMACurrentDataSent
+    STA.w NMI_DMACurrentDataSent
 
     LDA<VRAMOffset>
     STA.w VRAMQueue.VRAMOffset,x
@@ -28,14 +28,14 @@ endmacro
 macro TransferToVRAM(VRAMOffset, ResourceAddr, ResourceBNK, Lenght)
 
     REP #$20
-    LDA.w DMACurrentDataSent
+    LDA.w NMI_DMACurrentDataSent
     ADC<Lenght>
-    CMP.w DMAMaxDataPerFrame
+    CMP.w NMI_DMAMaxDataPerFrame
     SEP #$20
     BCC ?+
-    STA.w DMACurrentDataSent
+    STA.w NMI_DMACurrentDataSent
     XBA
-    STA.w DMACurrentDataSent+1
+    STA.w NMI_DMACurrentDataSent+1
 
     LDA.w VRAMQueue.Length
     ASL
@@ -89,14 +89,14 @@ endmacro
 macro TransferToCGRAM(CGRAMOffset, ResourceAddr, ResourceBNK, Lenght)
 
     REP #$20
-    LDA.w DMACurrentDataSent
+    LDA.w NMI_DMACurrentDataSent
     ADC<Lenght>
-    CMP.w DMAMaxDataPerFrame
+    CMP.w NMI_DMAMaxDataPerFrame
     SEP #$20
     BCC ?+
-    STA.w DMACurrentDataSent
+    STA.w NMI_DMACurrentDataSent
     XBA
-    STA.w DMACurrentDataSent+1
+    STA.w NMI_DMACurrentDataSent+1
 
     LDA.w CGRAMQueue.Length
     ASL

@@ -25,7 +25,7 @@ ResetHandlerEmu:
 
     REP #$38                  ; Disable decimal mode; widen A, X and Y to 16-bit
     LDA #!DMAInitialMaxDataPerFrame
-    STA.w DMAMaxDataPerFrame
+    STA.w NMI_DMAMaxDataPerFrame
     LDA #$0000                ;\ Set the Direct Page $000000-FF
     STA.b DirectPage.TilemapAddressLayer1Mirror
     STA.b DirectPage.TilemapAddressLayer3Mirror
@@ -52,6 +52,7 @@ ResetHandlerEmu:
     STA.b DirectPage.WindowSettingsObjectAndColorWindowMirror
     STA.b DirectPage.MainScreenWindowMaskMirror
     STA.b DirectPage.SubScreenWindowMaskMirror
+    STA.b DirectPage.HDMAEnablerMirror
 
     TCD                       ;/             (mirror of $7E0000-FF)
     LDA #!Stack               ;\ Set the Stack Pointer
@@ -82,11 +83,12 @@ ResetHandlerEmu:
     
     LDA #$01
     STA $4200
-    STZ.w DMACurrentDataSent
-    STZ.w DMACurrentDataSent+1
+    STZ.w NMI_DMACurrentDataSent
+    STZ.w NMI_DMACurrentDataSent+1
     JSR SetupScrollNextFrame
     JSR GamemodeCall
     JSR ProcessFixedColor
+    JSR SetupScrollRoutine
     
     STZ.b DirectPage.InterruptRunning
 
