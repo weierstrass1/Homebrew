@@ -12,3 +12,7 @@
 !OAMTileY = !OAMBuffer+1
 !OAMTileNumber = !OAMBuffer+2
 !OAMTileProp = !OAMBuffer+3
+
+!SampleStreamingAcknowledge = $69
+!SampleStreamingDataBlockCount = 9
+!SampleStreamingDataPerLoopSize #= !SampleStreamingDataBlockCount*4
