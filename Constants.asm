@@ -1,7 +1,6 @@
 !sa1 = 0
 !Stack = $01FF
 !DMAChannel = 0
-!DMARegOR #= !DMAChannel<<4 
 !DMAEnabler #= 2**!DMAChannel
 !DMAInitialMaxDataPerFrame = $1000
 !VRAMQueueSize = $40

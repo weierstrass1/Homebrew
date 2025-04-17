@@ -9,13 +9,13 @@ RTS
 
     REP #$20
 	LDA #$2202              
-	STA.b $00|!DMARegOR                   ;parameter of DMA
+	STA.b DMARegisters[!DMAChannel].ControlReg43x0_da0ifttt  ;parameter of DMA
 -
     LDA.w CGRAMQueue.SourceAddress,x
-    STA.b $02|!DMARegOR
+    STA.b DMARegisters[!DMAChannel].SourceAddressReg43x2
 
     LDA.w CGRAMQueue.SourceLength,x
-    STA.b $05|!DMARegOR                   ;Load Length
+    STA.b DMARegisters[!DMAChannel].SizeReg43x5              ;Load Length
 
     SEP #$20
 
@@ -25,14 +25,14 @@ RTS
     TAX
 
     LDA.w CGRAMQueue.SourceAddress+2,x
-    STA.b $04|!DMARegOR
+    STA.b DMARegisters[!DMAChannel].SourceAddressReg43x2+2
     LDA.w CGRAMQueue.CGRAMOffset,x
     PLX
 
-    STA $2121                           ;Loads VRAM destination
+    STA.w PPURegisters.CGRAMAddressReg2121                   ;Loads VRAM destination
     REP #$20
 
-    STY $420B                           ;Start the DMA Transfer
+    STY.w HardwareRegisters.DMAEnablerReg420B                ;Start the DMA Transfer
 
     DEX
     DEX

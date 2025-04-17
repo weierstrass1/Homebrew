@@ -1,28 +1,55 @@
 NMIHandlerEmu:
 NMIHandlerNative:
-    LDA $4210
-    LDA.b DirectPage.HDMAEnablerMirror
-    STA $420C
 
     SEI ;Set Interrupt flag so routine can start
-    PHB
 
+    PHP
+    PHB
+    REP #$30
+    PHA
+    PHX
+    PHY
+    SEP #$30
+
+    LDA.b DirectPage.GameLoopRunning
+    BEQ .FullNMI
+    ;Short NMI runs at 60FPS, It is executed when the game has lag.
+.ShortNMI
     LDA #$80
-    TSB $2100
+    TRB.w PPURegisters.ScreenDisplayReg2100_x000bbbb
+
+    STZ.b DirectPage.InterruptRunning
+
+    REP #$30
+    PLY
+    PLX
+    PLA
+    SEP #$30
+    PLB
+    PLP
+RTI
+    ;FullNMI Runs once every 1 gameloop.
+.FullNMI
+    LDA.w HardwareRegisters.NMIFlagAnd5A22VersionReg4210_n000vvvv
+    LDA #$80
+    TSB.w PPURegisters.ScreenDisplayReg2100_x000bbbb
+
+    LDA.b DirectPage.HDMAEnablerMirror
+    STA.w HardwareRegisters.HDMAEnablerReg420C
 
     LDA.b DirectPage.OAMSizeAndAddressMirror
-    STA $2101
+    STA.w PPURegisters.OAMSizeAndAddressReg2101_sssnnbbb
     LDA.b DirectPage.PixelationMirror
-    STA $2106
+    STA.w PPURegisters.ScreenPixelationReg2106_xxxxDCBA
 
     LDA.b DirectPage.ChangeColorMathConfigFlag
     BEQ +
     STZ.b DirectPage.ChangeColorMathConfigFlag
 
     LDA.b DirectPage.ColorMathConfigMirror
-    STA $2131
+    STA.w PPURegisters.ColorMathDesignationReg2131_shbo4321
     LDA.b DirectPage.ColorAdditionSelectMirror
-    STA $2130
+    STA.w PPURegisters.ColorAdditionSelectReg2130_ccmm00sd
 +
 
     LDA.b DirectPage.ChangeMainSubScreenConfigFlag
@@ -30,9 +57,9 @@ NMIHandlerNative:
     STZ.b DirectPage.ChangeMainSubScreenConfigFlag
 
     LDA.b DirectPage.MainScreenDesignationMirror
-    STA $212C
+    STA.w PPURegisters.MainScreenDesignationReg212C_000o4321
     LDA.b DirectPage.SubScreenDesignation
-    STA $212D
+    STA.w PPURegisters.SubScreenDesignationReg212D_000o4321
 +
 
     LDA.b DirectPage.ChangeWindowConfigFlag
@@ -40,27 +67,27 @@ NMIHandlerNative:
     STZ.b DirectPage.ChangeWindowConfigFlag
 
     LDA.b DirectPage.WindowSettingsLayer12Mirror
-    STA $2123
+    STA.w PPURegisters.WindowMaskSettingsBG12Reg2123_ABCDabcd
     LDA.b DirectPage.WindowSettingsLayer34Mirror
-    STA $2124
+    STA.w PPURegisters.WindowMaskSettingsBG34Reg2124_ABCDabcd
     LDA.b DirectPage.WindowSettingsObjectAndColorWindowMirror
-    STA $2125
+    STA.w PPURegisters.WindowMaskSettingsOAMColorWindowReg2125_ABCDabcd
     LDA.b DirectPage.MainScreenWindowMaskMirror
-    STA $212A
+    STA.w PPURegisters.WindowLogicBG1234Reg212A_44332211
     LDA.b DirectPage.SubScreenWindowMaskMirror
-    STA $212B
+    STA.w PPURegisters.WindowLogicOAMColorwindowReg212B_0000ccoo
 +
 
     LDA.b DirectPage.UseWindowFlag
     BEQ +
     LDA.b DirectPage.Window1LeftMirror
-    STA $2126
+    STA.w PPURegisters.Window1LeftReg2126
     LDA.b DirectPage.Window1RightMirror
-    STA $2127
+    STA.w PPURegisters.Window1RightReg2127
     LDA.b DirectPage.Window2LeftMirror
-    STA $2128
+    STA.w PPURegisters.Window2LeftReg2128
     LDA.b DirectPage.Window2RightMirror
-    STA $2129
+    STA.w PPURegisters.Window2RightReg2129
 +
 
     LDA.b DirectPage.ChangeLayerConfigFlag
@@ -68,23 +95,23 @@ NMIHandlerNative:
     STZ.b DirectPage.ChangeLayerConfigFlag
 
     LDA.b DirectPage.ModeMirror
-    STA $2105
+    STA.w PPURegisters.SNESModeReg2105_DCBAemmm
 
     REP #$20
     LDA.b DirectPage.TilemapAddressLayer1Mirror
-    STA $2107
+    STA.w PPURegisters.BG1TileAddressAndSizeReg2107_aaaaaayx
     LDA.b DirectPage.TilemapAddressLayer3Mirror
-    STA $2109
+    STA.w PPURegisters.BG3TileAddressAndSizeReg2109_aaaaaayx
     LDA.b DirectPage.GraphicsAddressLayer12Mirror
-    STA $210B
+    STA.w PPURegisters.BG12GraphicsAddressReg210B_22221111
     SEP #$20
 +
     LDA.b DirectPage.FixedColorNMIMirror
-    STA $2132
+    STA.w PPURegisters.FixedColorDataReg2132_Write1OrMore_BGRVVVVV
     LDA.b DirectPage.FixedColorNMIMirror+1
-    STA $2132
+    STA.w PPURegisters.FixedColorDataReg2132_Write1OrMore_BGRVVVVV
     LDA.b DirectPage.FixedColorNMIMirror+2
-    STA $2132
+    STA.w PPURegisters.FixedColorDataReg2132_Write1OrMore_BGRVVVVV
 
     LDX #$00
     JSR.w (NMI_ScrollRoutine,x)
@@ -93,8 +120,6 @@ NMIHandlerNative:
     LDA #$4300                ;\ Set the Direct Page $004300-FF
     TCD                       ;/ (mirror of $7E0000-FF)
     SEP #$30
-    PHK
-    PLB
 
     LDY #!DMAEnabler
 
@@ -107,9 +132,17 @@ NMIHandlerNative:
     SEP #$30
 
     LDA #$80
-    TRB $2100
+    TRB.w PPURegisters.ScreenDisplayReg2100_x000bbbb
+
+    STZ.b DirectPage.InterruptRunning
+
+    REP #$30
+    PLY
+    PLX
+    PLA
+    SEP #$30
     PLB
-    INC.b DirectPage.InterruptRunning
+    PLP
 RTI
 
 incsrc "VRAMQueue.asm"

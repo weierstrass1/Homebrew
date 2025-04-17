@@ -9,16 +9,17 @@ org $808000
 StartGame:
 ResetHandlerEmu:
     SEI                       ; Disable IRQ
-    STZ $4200                 ; Disable IRQ, NMI and joypad reading
-    STZ $420C                 ; Disable HDMA
-    STZ $420B                 ; Disable DMA
-    STZ $2140                 ;\ Clear APU I/O ports (1-4) (End music)
-    STZ $2141                 ;|
-    STZ $2142                 ;|
-    STZ $2143                 ;/
+    LDA #$01
+    STA.w HardwareRegisters.ROMAccessSpeedReg420D_0000000f  ; Disable IRQ, NMI and joypad reading
+    STZ.w HardwareRegisters.HDMAEnablerReg420C              ; Disable HDMA
+    STZ.w HardwareRegisters.DMAEnablerReg420B               ; Disable DMA
+    STZ.w PPURegisters.APUPort0Reg2140                      ;\ Clear APU I/O ports (1-4) (End music)
+    STZ.w PPURegisters.APUPort1Reg2141                      ;|
+    STZ.w PPURegisters.APUPort2Reg2142                      ;|
+    STZ.w PPURegisters.APUPort3Reg2143                      ;/
 
-    LDA #$80                  ;\ Activate force blank (lowest brightness)
-    STA $2100                 ;/
+    LDA #$80                                                ;\ Activate force blank (lowest brightness)
+    STA.w PPURegisters.ScreenDisplayReg2100_x000bbbb        ;/
 
     CLC                       ;\ Disable 6502 emulation mode
     XCE                       ;/
@@ -27,6 +28,7 @@ ResetHandlerEmu:
     LDA #!DMAInitialMaxDataPerFrame
     STA.w NMI_DMAMaxDataPerFrame
     LDA #$0000                ;\ Set the Direct Page $000000-FF
+    STA.b DirectPage.GameLoopRunning
     STA.b DirectPage.TilemapAddressLayer1Mirror
     STA.b DirectPage.TilemapAddressLayer3Mirror
     STA.b DirectPage.GraphicsAddressLayer12Mirror
@@ -57,7 +59,7 @@ ResetHandlerEmu:
     TCD                       ;/             (mirror of $7E0000-FF)
     LDA #!Stack               ;\ Set the Stack Pointer
     TCS                       ;/
-    SEP #$20
+    SEP #$30
 
     STZ.b DirectPage.UseWindowFlag
     STZ.w Gamemode_Index
@@ -73,16 +75,17 @@ ResetHandlerEmu:
     STA.b DirectPage.InterruptRunning
     STA.b DirectPage.ModeMirror
 
-    LDA $4210
+    JSR SetupScrollRoutine
+    LDA.w HardwareRegisters.NMIFlagAnd5A22VersionReg4210_n000vvvv
     LDA #$81
-    STA $4200
+    STA.w HardwareRegisters.InterruptEnableFlagsReg4200_n0yx000a
+    WAI
 -
     LDA.b DirectPage.InterruptRunning
-    BEQ -
+    BNE -
     CLI
     
-    LDA #$01
-    STA $4200
+    INC.b DirectPage.GameLoopRunning
     STZ.w NMI_DMACurrentDataSent
     STZ.w NMI_DMACurrentDataSent+1
     JSR SetupScrollNextFrame
@@ -90,11 +93,8 @@ ResetHandlerEmu:
     JSR ProcessFixedColor
     JSR SetupScrollRoutine
     
-    STZ.b DirectPage.InterruptRunning
-
-    LDA $4210
-    LDA #$81
-    STA $4200
+    INC.b DirectPage.InterruptRunning
+    STZ.b DirectPage.GameLoopRunning
     WAI
     BRA -
 

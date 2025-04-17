@@ -1,5 +1,4 @@
 SetupScrollRoutine:
-
     LDA.b DirectPage.ModeMirror
     AND #$07
     ASL

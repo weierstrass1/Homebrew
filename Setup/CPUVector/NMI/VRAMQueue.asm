@@ -4,7 +4,7 @@ VRAMQueueRoutine:
 RTS
 +
     LDX #$80                
-	STX $2115
+	STX.w PPURegisters.VideoPortControlReg2115_i000mmii
 
     DEC A
     ASL
@@ -12,20 +12,20 @@ RTS
 
     REP #$20
 	LDA #$1801            
-	STA.b $00|!DMARegOR                   ;parameter of DMA
+	STA.b DMARegisters[!DMAChannel].ControlReg43x0_da0ifttt  ;parameter of DMA
 -
     LDA.w VRAMQueue.SourceAddress,x
-    STA.b $02|!DMARegOR
+    STA.b DMARegisters[!DMAChannel].SourceAddressReg43x2
     LDA.w VRAMQueue.SourceAddress+1,x
-    STA.b $03|!DMARegOR
+    STA.b DMARegisters[!DMAChannel].SourceAddressReg43x2+1
 
     LDA.w VRAMQueue.SourceLength,x
-    STA.b $05|!DMARegOR                   ;Load Length
+    STA.b DMARegisters[!DMAChannel].SizeReg43x5              ;Load Length
 
     LDA.w VRAMQueue.VRAMOffset,x
-    STA $2116                           ;Loads VRAM destination
+    STA.w PPURegisters.VRAMAddressReg2116                    ;Loads VRAM destination
 
-    STY $420B                           ;Start the DMA Transfer
+    STY.w HardwareRegisters.DMAEnablerReg420B                ;Start the DMA Transfer
 
     DEX
     DEX

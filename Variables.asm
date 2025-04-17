@@ -112,6 +112,7 @@ skip sizeof(DMARegisters)*8
 struct DirectPage !MainRAMBank
     .Scratch: skip $30
     .InterruptRunning: skip 1
+    .GameLoopRunning: skip 1
     .OAMSizeAndAddressMirror: skip 1
     .ModeMirror: skip 1
     .PixelationMirror: skip 1
