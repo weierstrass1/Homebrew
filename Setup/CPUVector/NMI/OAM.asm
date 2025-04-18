@@ -165,7 +165,7 @@ RTS
     LDA #512
     STA.w PPURegisters.OAMAddressLowByteReg2102
 
-    LDA.w #OAM_Buffer_Tile+512
+    LDA.w #SizesCompressed
     STA.b DMARegisters[!DMAChannel].SourceAddressReg43x2
     SEP #$20
 
