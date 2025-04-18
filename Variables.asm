@@ -150,15 +150,24 @@ struct DirectPage !MainRAMBank
     .FixedColorCPUMirror: skip 2
     .FixedColorNMIMirror: skip 3
     .HDMAEnablerMirror: skip 1
-    .GamemodeIndexer: skip 2
-    .LevelIndexer: skip 2
 endstruct
 
 org !OAMBuffer
-namespace OAMBuffer
-    TileXYNumberProp: skip 4*128
-    SizesCompressed: skip 32
-    Sizes: skip 128
+Struct OAM_Buffer_Tile
+    .X: skip 1
+    .Y: skip 1
+    .Number: skip 1
+    .Property: skip 1
+endstruct
+skip sizeof(OAM_Buffer_Tile)*128
+namespace OAM
+    namespace Buffer
+        SizesCompressed: skip 32
+        Sizes: skip 128
+    namespace off
+    SizeCurrentFrame: skip 1
+    SizeLastFrame: skip 1
+    ClearRoutine: skip (128*3)+1
 namespace off
 
 struct VRAMQueue
@@ -193,6 +202,9 @@ namespace NMI
     DMACurrentDataSent: skip 2
     DMAMaxDataPerFrame: skip 2
     ScrollRoutine: skip 2
+    OAMRoutine: skip 2
+    OAMDMASize1: skip 2
+    OAMDMASize2: skip 1
 namespace off
 
 namespace Levels

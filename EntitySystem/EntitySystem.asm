@@ -397,15 +397,6 @@ RemoveFirstEntity:
     CLC
 RTL
 +
-    CMP #$01
-    BNE +
-
-    STZ.w Entities_Length
-    SEC
-RTL
-+
-.Start
-
     LDY.w Entities_FirstSlot
     TYA
 
@@ -414,9 +405,19 @@ RTL
     XBA
     TAX
 
+    LDA.w Entities_Length
     LDA #$FFFF
     STA.l Entity.ID,x
     SEP #$30
+
+    CMP #$01
+    BNE +
+
+    STZ.w Entities_Length
+    SEC
+RTL
++
+.Start
     
     LDA.w Entities_NextSlot,y
     STA.w Entities_FirstSlot
@@ -436,15 +437,6 @@ RemoveLastEntity:
     CLC
 RTL
 +
-    CMP #$01
-    BNE +
-
-    STZ.w Entities_Length
-    SEC
-RTL
-+
-.Start
-
     LDY.w Entities_LastSlot
     TYA
 
@@ -453,9 +445,15 @@ RTL
     XBA
     TAX
 
-    LDA #$FFFF
-    STA.l Entity.ID,x
-    SEP #$30
+    LDA.w Entities_Length
+    CMP #$01
+    BNE +
+
+    STZ.w Entities_Length
+    SEC
+RTL
++
+.Start
     
     LDA.w Entities_PreviousSlot,y
     STA.w Entities_LastSlot
@@ -472,16 +470,14 @@ RTL
 ;A start at 8 bits
 ;X,Y start at 16 bits
 RemoveAt:
-    LDA.w Entities_Length
-    BNE +
+    LDA.l Entity.ID+1,x
+    BPL +
     CLC
 RTL
 +
-    CMP #$01
+    LDA.w Entities_Length
     BNE +
-
-    STZ.w Entities_Length
-    SEC
+    CLC
 RTL
 +
     REP #$20
@@ -491,15 +487,24 @@ RTL
     TAY
     SEP #$20
 
+    LDA.w Entities_Length
+    CMP #$01
+    BNE +
+
+    STZ.w Entities_Length
+    SEC
+RTL
++
+
     CMP.w Entities_FirstSlot
     BNE +
-    JSL RemoveFirstEntity
+    JSL RemoveFirstEntity_Start
     REP #$10
 RTL
 +
     CMP.w Entities_LastSlot
     BNE +
-    JSL RemoveLastEntity
+    JSL RemoveLastEntity_Start
     REP #$10
 RTL
 +

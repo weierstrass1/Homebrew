@@ -76,12 +76,24 @@ ResetHandlerEmu:
     STA.b DirectPage.ChangeLayerConfigFlag
     STA.b DirectPage.ModeMirror
 
+    JSR MoveOAMClearToRAM
+    JSR ClearAllOAMBuffer
     JSR ClearEntities
     JSR SetupScrollRoutine
+
+    LDA #$00
+    STA.w OAM_SizeCurrentFrame
+    LDA #$80
+    STA.w OAM_SizeLastFrame
+    JSR SelectOAMRoutine
+
     LDA.w HardwareRegisters.NMIFlagAnd5A22VersionReg4210_n000vvvv
     LDA.b #$81|!IRQFlag
     STA.w HardwareRegisters.InterruptEnableFlagsReg4200_n0yx000a
     WAI
+
+    LDA #$00
+    STA.w OAM_SizeLastFrame
 .GameLoop
     
     INC.b DirectPage.GameLoopRunning
@@ -92,6 +104,11 @@ ResetHandlerEmu:
     JSR GamemodeCall
     JSR ProcessFixedColor
     JSR SetupScrollRoutine
+    JSR SelectOAMRoutine
+    LDA #$60
+    STA.w OAM_SizeLastFrame
+    JSR SelectOAMRoutine
+    JSR ClearOAMBuffer
     
     STZ.b DirectPage.GameLoopRunning
     

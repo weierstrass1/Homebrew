@@ -116,12 +116,16 @@ RTI
     LDX #$00
     JSR.w (NMI_ScrollRoutine,x)
 
+
     REP #$30
     LDA.w #DMARegisters       ;\ Set the Direct Page $004300-FF
     TCD                       ;/ (mirror of $7E0000-FF)
     SEP #$30
 
     LDY #!DMAEnabler
+
+    LDX #$00
+    JSR.w (NMI_OAMRoutine,x)
 
     JSR VRAMQueueRoutine
     JSR CGRAMQueueRoutine
@@ -148,3 +152,4 @@ incsrc "VRAMQueue.asm"
 incsrc "CGRAMQueue.asm"
 incsrc "FixedColor.asm"
 incsrc "Scrollroutine.asm"
+incsrc "OAM.asm"
