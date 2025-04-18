@@ -15,10 +15,9 @@ NMIHandlerNative:
     BEQ .FullNMI
     ;Short NMI runs at 60FPS, It is executed when the game has lag.
 .ShortNMI
-    LDA #$80
-    TRB.w PPURegisters.ScreenDisplayReg2100_x000bbbb
-
-    STZ.b DirectPage.InterruptRunning
+    LDA.b DirectPage.ScreenDisplayMirror
+    AND #$0F
+    STA.w PPURegisters.ScreenDisplayReg2100_x000bbbb
 
     REP #$30
     PLY
@@ -32,7 +31,8 @@ RTI
 .FullNMI
     LDA.w HardwareRegisters.NMIFlagAnd5A22VersionReg4210_n000vvvv
     LDA #$80
-    TSB.w PPURegisters.ScreenDisplayReg2100_x000bbbb
+    ORA.b DirectPage.ScreenDisplayMirror
+    STA.w PPURegisters.ScreenDisplayReg2100_x000bbbb
 
     LDA.b DirectPage.HDMAEnablerMirror
     STA.w HardwareRegisters.HDMAEnablerReg420C
@@ -117,7 +117,7 @@ RTI
     JSR.w (NMI_ScrollRoutine,x)
 
     REP #$30
-    LDA #$4300                ;\ Set the Direct Page $004300-FF
+    LDA.w #DMARegisters       ;\ Set the Direct Page $004300-FF
     TCD                       ;/ (mirror of $7E0000-FF)
     SEP #$30
 
@@ -131,10 +131,9 @@ RTI
     TCD                       ;/ (mirror of $7E0000-FF)
     SEP #$30
 
-    LDA #$80
-    TRB.w PPURegisters.ScreenDisplayReg2100_x000bbbb
-
-    STZ.b DirectPage.InterruptRunning
+    LDA.b DirectPage.ScreenDisplayMirror
+    AND #$0F
+    STA.w PPURegisters.ScreenDisplayReg2100_x000bbbb
 
     REP #$30
     PLY

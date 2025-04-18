@@ -1,6 +1,6 @@
 Init:
     STZ.w Gamemode_Load_Step
-RTL
+RTS
 
 Main:
     LDA.w Gamemode_Load_Step
@@ -8,14 +8,14 @@ Main:
     JSR GraphicSetup
     JSR LoadPalette
     INC.w Gamemode_Load_Step
-RTL
+RTS
 +
     JSR LoadGraphic
-RTL
+RTS
 
 GraphicSetup:
     LDA #$0F
-    TRB $2100
+    TRB.b DirectPage.ScreenDisplayMirror
 
     LDA #$01
     STA.b DirectPage.ChangeLayerConfigFlag
@@ -97,7 +97,8 @@ LoadGraphic:
     BPL +
     SEP #$30
     LDA #$0F
-    TSB $2100
+    TSB.b DirectPage.ScreenDisplayMirror
+    INC.w Gamemode_Index
 RTS
 +
     STA.b DirectPage.Scratch+5

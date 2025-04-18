@@ -1,4 +1,3 @@
-pushpc
 namespace nested on
 struct PPURegisters $002100
     .ScreenDisplayReg2100_x000bbbb: skip 1
@@ -111,8 +110,8 @@ skip sizeof(DMARegisters)*8
 
 struct DirectPage !MainRAMBank
     .Scratch: skip $30
-    .InterruptRunning: skip 1
     .GameLoopRunning: skip 1
+    .ScreenDisplayMirror: skip 1
     .OAMSizeAndAddressMirror: skip 1
     .ModeMirror: skip 1
     .PixelationMirror: skip 1
@@ -218,6 +217,7 @@ namespace Entities
 namespace off
 
 struct Entity !MainRAMBank+$010000
+    .ID: skip 2
     .X: skip 3
     .Y: skip 3
     .XSpeed: skip 2
@@ -238,9 +238,8 @@ struct Entity !MainRAMBank+$010000
     .AnimationTimer: skip 1
     .OthersVariables:
 endstruct align 256
-skip sizeof(Entity)*128
+skip sizeof(Entity)*!EntitiesMaxSize
 namespace nested off
-pullpc
 
 if !sa1
     !MultiplicationResult = $2306

@@ -20,3 +20,23 @@ macro JSLRoutineTable(table, indexer, scratch)
 ?.Return
     PLB
 endmacro
+
+macro JSRRoutineTable(sep20, table)
+    ASL
+    TAX
+    if <sep20> == 1
+    SEP #$20
+    endif
+
+    JSR.w (<table>,x)
+endmacro
+
+macro JMPRoutineTable(sep20, table)
+    ASL
+    TAX
+    if <sep20> == 1
+    SEP #$20
+    endif
+
+    JMP.w (<table>,x)
+endmacro

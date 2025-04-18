@@ -5,11 +5,11 @@ incsrc "MacrosInclude.asm"
 incsrc "Setup/Header.asm"
 incsrc "Setup/CPUVector.asm"
 
-org $808000
+org $008000|!FastromBNK
 StartGame:
 ResetHandlerEmu:
     SEI                       ; Disable IRQ
-    LDA #$01
+    LDA #!Fastrom
     STA.w HardwareRegisters.ROMAccessSpeedReg420D_0000000f  ; Disable IRQ, NMI and joypad reading
     STZ.w HardwareRegisters.HDMAEnablerReg420C              ; Disable HDMA
     STZ.w HardwareRegisters.DMAEnablerReg420B               ; Disable DMA
@@ -54,13 +54,14 @@ ResetHandlerEmu:
     STA.b DirectPage.WindowSettingsObjectAndColorWindowMirror
     STA.b DirectPage.MainScreenWindowMaskMirror
     STA.b DirectPage.SubScreenWindowMaskMirror
-    STA.b DirectPage.HDMAEnablerMirror
 
     TCD                       ;/             (mirror of $7E0000-FF)
     LDA #!Stack               ;\ Set the Stack Pointer
     TCS                       ;/
     SEP #$30
 
+    STZ.b DirectPage.HDMAEnablerMirror
+    STZ.w Entities_Length
     STZ.b DirectPage.UseWindowFlag
     STZ.w Gamemode_Index
     STZ.w Levels_Index
@@ -68,35 +69,34 @@ ResetHandlerEmu:
     STZ.w VRAMQueue.Length
 
     LDA #$01
+    STA.w Gamemode_LastIndex
     STA.b DirectPage.ChangeColorMathConfigFlag
     STA.b DirectPage.ChangeMainSubScreenConfigFlag
     STA.b DirectPage.ChangeWindowConfigFlag
     STA.b DirectPage.ChangeLayerConfigFlag
-    STA.b DirectPage.InterruptRunning
     STA.b DirectPage.ModeMirror
 
+    JSR ClearEntities
     JSR SetupScrollRoutine
     LDA.w HardwareRegisters.NMIFlagAnd5A22VersionReg4210_n000vvvv
-    LDA #$81
+    LDA.b #$81|!IRQFlag
     STA.w HardwareRegisters.InterruptEnableFlagsReg4200_n0yx000a
     WAI
--
-    LDA.b DirectPage.InterruptRunning
-    BNE -
-    CLI
+.GameLoop
     
     INC.b DirectPage.GameLoopRunning
     STZ.w NMI_DMACurrentDataSent
     STZ.w NMI_DMACurrentDataSent+1
+
     JSR SetupScrollNextFrame
     JSR GamemodeCall
     JSR ProcessFixedColor
     JSR SetupScrollRoutine
     
-    INC.b DirectPage.InterruptRunning
     STZ.b DirectPage.GameLoopRunning
+    
     WAI
-    BRA -
+    BRA .GameLoop
 
 incsrc "Setup/CPUVector/COP.asm"
 incsrc "Setup/CPUVector/BRK.asm"
@@ -106,6 +106,9 @@ incsrc "Setup/CPUVector/NMI/NMI.asm"
 
 incsrc "Gamemodes/GamemodeManagement.asm"
 incsrc "Scroll/ScrollingSystem.asm"
+incsrc "EntitySystem/EntitySystem.asm"
+
+incsrc "EntitySystem/EntitiesInclude.asm"
 
 incsrc "Routines/RoutinesInclude.asm"
 incsrc "Resources/ResourceInclude.asm"
