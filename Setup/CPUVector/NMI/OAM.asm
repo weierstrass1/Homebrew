@@ -77,14 +77,17 @@ MoveOAMClearToRAM:
 RTS
 
 SelectOAMRoutine:
-    LDA.w OAM_SizeLastFrame
+    LDA.w OAM_SizeCurrentFrame
+    ORA.w OAM_SizeLastFrame
     BNE +
+
     REP #$20
     LDA.w #.Empty
     STA.w NMI_OAMRoutine
     SEP #$20
 RTS
 +
+    LDA.w OAM_SizeLastFrame
     CMP #100
     BCC +
     REP #$20
