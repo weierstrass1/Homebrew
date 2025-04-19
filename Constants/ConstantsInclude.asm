@@ -1,0 +1,5 @@
+incsrc "BasicConstants.asm"
+incsrc "IRQConstants.asm"
+incsrc "NMIConstants.asm"
+incsrc "SampleStreamingConstants.asm"
+incsrc "EntitiesConstants.asm"

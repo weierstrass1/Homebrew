@@ -1,6 +1,6 @@
-incsrc "Constants.asm"
-incsrc "Variables.asm"
-incsrc "MacrosInclude.asm"
+incsrc "Constants/ConstantsInclude.asm"
+incsrc "Variables/VariablesInclude.asm"
+incsrc "Macros/MacrosInclude.asm"
 
 incsrc "Setup/Header.asm"
 incsrc "Setup/CPUVector.asm"
