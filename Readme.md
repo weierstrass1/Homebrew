@@ -26,3 +26,6 @@ This is a Super Nintendo's Homebrew Base with the following features:
 * Dynamic Background.
 * Sound Engine.
 * Sample Streaming.
+
+Requirements:
+* Asar V2.0 or Higher
