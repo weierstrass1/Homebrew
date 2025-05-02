@@ -32,10 +32,13 @@ namespace SPC700MusicChannels
     VolumeMultiplier: skip 8
     CurrentDurationLowByte: skip 8
     TotalDurationLowByte: skip 8
+    Octave: skip 8
+    DefaultDurationLowByte: skip 8
     CurrentPointerLowByte: skip 8
     ResetPointerLowByte: skip 8
     LoopPointerLowByte: skip 8
     NestedLoopPointerLowByte: skip 8
+    DefaultDurationHighByte: skip 8
     CurrentDurationHighByte: skip 8
     TotalDurationHighByte: skip 8
     CurrentPointerHighByte: skip 8
@@ -59,6 +62,7 @@ namespace SPC700MusicChannels
     VolumeMultiplier: skip 8
     TickCounter: skip 8
     Tempo: skip 8
+    Octave: skip 8
     CurrentDurationLowByte: skip 8
     TotalDurationLowByte: skip 8
     CurrentPointerLowByte: skip 8
