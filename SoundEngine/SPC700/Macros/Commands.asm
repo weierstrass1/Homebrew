@@ -3,11 +3,23 @@ macro Note(table)
     ASL A
     MOV X, A
 
-    MOV A, <table>+X
-    MOV SPC700Musicchannels_PitchLowByte+Y, A
 
-    MOV A, SPC700MusicChannels_Octave+1+x
-    MOV SPC700Musicchannels_PitchHighByte+Y, A
+    MOV A, Y
+    XCN A
+    PUSH A
+
+    ORA A, #!DSPRegChannelPitchLowByte
+    MOV !RegDSPAddress, A
+
+    MOV A, <table>+X
+    MOV !RegDSPValue, A
+
+    POP A
+    ORA A, #!DSPRegChannelPitchHighByte
+    MOV !RegDSPAddress, A
+
+    MOV A, <table>+1+X
+    MOV !RegDSPValue, A
 endmacro
 
 macro DurationGeneral(valueH, valueL)
