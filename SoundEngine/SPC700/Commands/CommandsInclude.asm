@@ -127,3 +127,7 @@ incsrc "Octaves/Octave7.asm"
 incsrc "Rest/Rest.asm"
 incsrc "Rest/RestDefault.asm"
 incsrc "Rest/RestExtended.asm"
+
+incsrc "Tie/Tie.asm"
+incsrc "Tie/TieDefault.asm"
+incsrc "Tie/TieExtended.asm"

@@ -1,0 +1,3 @@
+Tie:
+    %Duration()
+RET

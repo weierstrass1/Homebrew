@@ -122,10 +122,6 @@ MusicLoop:
     CMPW YA, !TotalDuration
     BNE MusicLoop_NextChannel
 
-    MOV !CurrentBitChecker, Bitchecker+Y
-    OR A, SPC700Mirrors.KeyOff
-    MOV SPC700Mirrors.KeyOff, A
-
     MOV SPC700MusicChannels_CurrentDurationLowByte+X, #$00
     MOV SPC700MusicChannels_CurrentDurationHighByte+X, #$00
 
@@ -187,16 +183,52 @@ SoundEffectLoop:
 RET
 
 CommandTable:
-    dw Octave0
     dw Octave1
-    dw Octave2
-    dw Octave3
     dw Octave4
-    dw Octave5
     dw Octave6
-    dw Octave7
+
+    dw OMinusNoteB
+    dw OMinusNoteASharp
+    dw OMinusNoteA
+    dw OMinusNoteGSharp
+    dw OMinusNoteG
+    dw OMinusNoteFSharp
+    dw OMinusNoteF
+    dw OMinusNoteE
+    dw OMinusNoteDSharp
+    dw OMinusNoteD
+    dw OMinusNoteCSharp
+    dw OMinusNoteC
 
     dw NoteB
+    dw NoteASharp
+    dw NoteA
+    dw NoteGSharp
+    dw NoteG
+    dw NoteFSharp
+    dw NoteF
+    dw NoteE
+    dw NoteDSharp
+    dw NoteD
+    dw NoteCSharp
+    dw NoteC
+
+    dw OPlusNoteB
+    dw OPlusNoteASharp
+    dw OPlusNoteA
+    dw OPlusNoteGSharp
+    dw OPlusNoteG
+    dw OPlusNoteFSharp
+    dw OPlusNoteF
+    dw OPlusNoteE
+    dw OPlusNoteDSharp
+    dw OPlusNoteD
+    dw OPlusNoteCSharp
+    dw OPlusNoteC
+
+    dw Rest
+
+    dw Tie
 
 Frecuencies:
 .B
@@ -240,6 +272,10 @@ GenericNote:
 ProcessNote:
     MOV A, SPC700MusicChannels_Octave+Y
     MOV X, A
+
+    MOV !CurrentBitChecker, Bitchecker+Y
+    OR A, SPC700Mirrors.KeyOff
+    MOV SPC700Mirrors.KeyOff, A
 
     MOV A, !CurrentBitChecker
     OR A, SPC700Mirrors.KeyOn
