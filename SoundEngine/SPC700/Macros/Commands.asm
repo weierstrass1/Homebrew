@@ -43,9 +43,13 @@ macro GenericNote()
     ORA A, #!DSPRegChannelPitchLowByte
     MOV !RegDSPAddress, A
 
+    MOV A, TunningLowByte+Y
+    MOV Y, A
 .p1
     MOV A, $0000+X
     MOV !RegDSPValue, A
+
+    
 
     POP A
     ORA A, #!DSPRegChannelPitchHighByte

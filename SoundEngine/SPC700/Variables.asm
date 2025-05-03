@@ -18,59 +18,19 @@ org $0000
 SPC700Scratch: skip 16
 
 namespace SPC700MusicChannels
-    Volume: skip 8
-    Pan: skip 8
-    PitchLowByte: skip 8
-    PitchHighByte: skip 8
-    Source: skip 8
-    ADSRGainEnvelope0: skip 8
-    ADSREnvelope1: skip 8
-    GainEnvelope1: skip 8
-    ADSRValue: skip 8
-    Waveform: skip 8
-    EndSample: skip 8
-    VolumeMultiplier: skip 8
-    CurrentDurationLowByte: skip 8
-    TotalDurationLowByte: skip 8
     Octave: skip 8
+    
+    TunningLowByte: skip 8
+    CurrentDurationLowByte: skip 8
     DefaultDurationLowByte: skip 8
     CurrentPointerLowByte: skip 8
     ResetPointerLowByte: skip 8
     LoopPointerLowByte: skip 8
     NestedLoopPointerLowByte: skip 8
-    DefaultDurationHighByte: skip 8
-    CurrentDurationHighByte: skip 8
-    TotalDurationHighByte: skip 8
-    CurrentPointerHighByte: skip 8
-    ResetPointerHighByte: skip 8
-    LoopPointerHighByte: skip 8
-    NestedLoopPointerHighByte: skip 8
-namespace off
 
-namespace SPC700MusicChannels
-    Volume: skip 8
-    Pan: skip 8
-    PitchLowByte: skip 8
-    PitchHighByte: skip 8
-    Source: skip 8
-    ADSRGainEnvelope0: skip 8
-    ADSREnvelope1: skip 8
-    GainEnvelope1: skip 8
-    ADSRValue: skip 8
-    Waveform: skip 8
-    EndSample: skip 8
-    VolumeMultiplier: skip 8
-    TickCounter: skip 8
-    Tempo: skip 8
-    Octave: skip 8
-    CurrentDurationLowByte: skip 8
-    TotalDurationLowByte: skip 8
-    CurrentPointerLowByte: skip 8
-    ResetPointerLowByte: skip 8
-    LoopPointerLowByte: skip 8
-    NestedLoopPointerLowByte: skip 8
+    TunningHighByte: skip 8
     CurrentDurationHighByte: skip 8
-    TotalDurationHighByte: skip 8
+    DefaultDurationHighByte: skip 8
     CurrentPointerHighByte: skip 8
     ResetPointerHighByte: skip 8
     LoopPointerHighByte: skip 8
