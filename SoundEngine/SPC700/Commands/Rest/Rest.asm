@@ -1,0 +1,3 @@
+Rest:
+    %Duration()
+RET

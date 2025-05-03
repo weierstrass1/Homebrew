@@ -1,4 +1,4 @@
-macro DefaultNote(<frecTable>)
+macro DefaultNote(frecTable)
     MOV A, #<frecTable>
     MOV Y, #<frecTable>+1
 
@@ -8,7 +8,7 @@ macro DefaultNote(<frecTable>)
     JMP GenericDefaultNote
 endmacro
 
-macro Note(<frecTable>)
+macro Note(frecTable)
     MOV A, #<frecTable>
     MOV Y, #<frecTable>+1
 
@@ -18,7 +18,7 @@ macro Note(<frecTable>)
     JMP GenericNote
 endmacro
 
-macro ExtendedNote(<frecTable>)
+macro ExtendedNote(frecTable)
     MOV A, #<frecTable>
     MOV Y, #<frecTable>+1
 
@@ -28,96 +28,32 @@ macro ExtendedNote(<frecTable>)
     JMP GenericExtendedNote
 endmacro
 
-macro GenericNote()
-    MOV A, SPC700MusicChannels_Octave+Y
-    MOV X, A
 
-    MOV A, !CurrentBitChecker
-    OR A, SPC700Mirrors.KeyOn
-    MOV SPC700Mirrors.KeyOn, A
-
-    ;P = Pitch, T = Tunning, L = Low Byte, H = High Byte
-    ;PH PL * TH TL
-    ;(256*PH+PL)*(256*TH + TL)
-    ;256^2*PH*TH + 256*PH*TL + 256*PL*TH + PL*TL
-    
-    ;Example:
-    ;Pitch = $0385 (A4), Tunning = $0300
-    ;PH PL * TH TL = $03 $85 * $03 * $00
-    ;(256*PH+PL)*(256*TH + TL) = (256*$03 + $85)*(256*$03 + $00)
-    ;256^2*PH*TH + 256*PH*TL + 256*PL*TH + PL*TL = 256^2*$03*$03 + 256*$03*$00 + 256*$85*$03 + $85*$00
-    ;256^2*$09 + 256*$18F
-    ;$090000 + $018F00
-    ;$0A8F00
-    ;Pitch = Byte 3|Byte 2 = $0A8F
-    MOV !MulTunning+4, #$00
-    MOV !MulTunning+5, #$00
-
-    ;PL*TL
-    MOV A, TunningLowByte+Y
-    MOV Y, A
-.p1
-    MOV A, $0000+X
-    MUL YA
-    MOV !MulTunning, YA
-
-    ;256*PL*TH
-    PUSH A
-    MOV Y, !CurrentChannel
-    MOV A, TunningHighByte+Y
-    MOV Y, A
-    POP A
-    MUL YA
-    MOV !MulTunning+2, YA
-
-    ;256*PL*TH + PL*TL
-    MOV A, !MulTunning+1
-    CLRC
-    ADC A, !MulTunning+2
-    MOV !MulTunning+2, A
-    BCC +
-    INC !MulTunning+3
-+
-
-    ;256*PH*TL
-    MOV Y, !CurrentChannel
-    MOV A, TunningLowByte+Y
-    MOV Y, A
-.p2
-    MOV A, $0000+X
-    MUL YA
-    PUSH A
-    CLRC
-    ;256*PH*TL + 256*PL*TH + PL*TL
-    ADDW YA, !MulTunning+2
-    MOVW !MulTunning+2, YA
-    BCC +
-    INC !MulTunning+4
-+
-    ;256^2*PH*TH
-    MOV Y, !CurrentChannel
-    MOV A, TunningHighByte+Y
-    MOV Y, A
-    POP A
-    MUL YA
-    CLRC
-    ;256^2*PH*TH + 256*PH*TL + 256*PL*TH + PL*TL
-    ADDW YA, !MulTunning+4
-    MOVW !MulTunning+4, YA
-
-    MOV A, !CurrentChannel
-    XCN A
-    ORA A, #!DSPRegChannelPitchLowByte
-    MOV !RegDSPAddress, A
-
-    MOV A, !MulTunning+3
-    MOV !RegDSPValue, A
-
-    INC !RegDSPAddress
-
-    MOV A, !MulTunning+4
-    MOV !RegDSPValue, A
+macro OPlusNote(frecTable)
+    %Note(<frecTable>+2)
 endmacro
+
+macro DefaultOPlusNote(frecTable)
+    %DefaultNote(<frecTable>+2)
+endmacro
+
+macro ExtendedOPlusNote(frecTable)
+    %ExtendedNote(<frecTable>+2)
+endmacro
+
+
+macro OMinusNote(frecTable)
+    %Note(<frecTable>-2)
+endmacro
+
+macro DefaultOMinusNote(frecTable)
+    %DefaultNote(<frecTable>-2)
+endmacro
+
+macro ExtendedOMinusNote(frecTable)
+    %ExtendedNote(<frecTable>-2)
+endmacro
+
 
 macro DurationGeneral(valueH, valueL)
     MOV A, <valueL>

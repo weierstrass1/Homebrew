@@ -187,51 +187,16 @@ SoundEffectLoop:
 RET
 
 CommandTable:
-    dw Octave
-    dw IncreaseOctave
-    dw DecreaseOctave
-    
-    dw NoteB_Default
-    dw NoteASharp_Default
-    dw NoteA_Default
-    dw NoteGSharp_Default
-    dw NoteG_Default
-    dw NoteFSharp_Default
-    dw NoteF_Default
-    dw NoteE_Default
-    dw NoteDSharp_Default
-    dw NoteD_Default
-    dw NoteCSharp_Default
-    dw NoteC_Default
-    dw Rest_Default
+    dw Octave0
+    dw Octave1
+    dw Octave2
+    dw Octave3
+    dw Octave4
+    dw Octave5
+    dw Octave6
+    dw Octave7
 
     dw NoteB
-    dw NoteASharp
-    dw NoteA
-    dw NoteGSharp
-    dw NoteG
-    dw NoteFSharp
-    dw NoteF
-    dw NoteE
-    dw NoteDSharp
-    dw NoteD
-    dw NoteCSharp
-    dw NoteC
-    dw Rest
-
-    dw NoteB_Extended
-    dw NoteASharp_Extended
-    dw NoteA_Extended
-    dw NoteGSharp_Extended
-    dw NoteG_Extended
-    dw NoteFSharp_Extended
-    dw NoteF_Extended
-    dw NoteE_Extended
-    dw NoteDSharp_Extended
-    dw NoteD_Extended
-    dw NoteCSharp_Extended
-    dw NoteC_Extended
-    dw Rest_Extended
 
 Frecuencies:
 .B
@@ -259,167 +224,106 @@ Frecuencies:
 .C
     dw $0021,$0043,$0086,$010C,$0218,$0430,$085F,$10BE
 
-GenericDefaultNote:
-    %GenericNote()
-    %DefaultDuration()
-RET
+incsrc "Commands/CommandsInclude.asm"
 
-GenericNote:
-    %GenericNote()
-    %Duration()
-RET
+GenericDefaultNote:
+    %DefaultDuration()
+    BRA ProcessNote
 
 GenericExtendedNote:
-    %GenericNote()
     %DurationExtended()
-RET
+    BRA ProcessNote
 
-Octave:
-    INC !CurrentPointer
-    BNE +
-    INC !CurrentPointer+1
-+
-
-    MOV A, (!CurrentPointer)
-    MOV SPC700MusicChannels_Octave+Y, A
-RET
-
-IncreaseOctave:
-    INC SPC700MusicChannels_Octave+Y
-    INC SPC700MusicChannels_Octave+Y
-    MOV A, SPC700MusicChannels_Octave+Y
-    MOV A, #$09
-    BCC +
-    MOV SPC700MusicChannels_Octave+Y, #$0E
-+
-RET
-
-DecreaseOctave:
-    DEC SPC700MusicChannels_Octave+Y
-    DEC SPC700MusicChannels_Octave+Y
-    BPL +
-    MOV SPC700MusicChannels_Octave+Y, #$00
-+
-RET
-
-NoteB_Default:
-    %DefaultNote(Frecuencies_B)
-    
-NoteASharp_Default:
-    %DefaultNote(Frecuencies_ASharp)
-    
-NoteA_Default:
-    %DefaultNote(Frecuencies_A)
-    
-NoteGSharp_Default:
-    %DefaultNote(Frecuencies_GSharp)
-    
-NoteG_Default:
-    %DefaultNote(Frecuencies_G)
-    
-NoteFSharp_Default:
-    %DefaultNote(Frecuencies_FSharp)
-    
-NoteF_Default:
-    %DefaultNote(Frecuencies_F)
-    
-NoteE_Default:
-    %DefaultNote(Frecuencies_F)
-    
-NoteDSharp_Default:
-    %DefaultNote(Frecuencies_DSharp)
-    
-NoteD_Default:
-    %DefaultNote(Frecuencies_D)
-    
-NoteCSharp_Default:
-    %DefaultNote(Frecuencies_CSharp)
-    
-NoteC_Default:
-    %DefaultNote(Frecuencies_C)
-    
-Rest_Default:
-    %DefaultDuration()
-RET
-
-
-NoteB:
-    %Note(Frecuencies_B)
-    
-NoteASharp:
-    %Note(Frecuencies_ASharp)
-    
-NoteA:
-    %Note(Frecuencies_A)
-    
-NoteGSharp:
-    %Note(Frecuencies_GSharp)
-    
-NoteG:
-    %Note(Frecuencies_G)
-    
-NoteFSharp:
-    %Note(Frecuencies_FSharp)
-    
-NoteF:
-    %Note(Frecuencies_F)
-    
-NoteE:
-    %Note(Frecuencies_F)
-    
-NoteDSharp:
-    %Note(Frecuencies_DSharp)
-    
-NoteD:
-    %Note(Frecuencies_D)
-    
-NoteCSharp:
-    %Note(Frecuencies_CSharp)
-    
-NoteC:
-    %Note(Frecuencies_C)
-    
-Rest:
+GenericNote:
     %Duration()
-RET
 
+ProcessNote:
+    MOV A, SPC700MusicChannels_Octave+Y
+    MOV X, A
 
-NoteB_Extended:
-    %ExtendedNote(Frecuencies_B)
+    MOV A, !CurrentBitChecker
+    OR A, SPC700Mirrors.KeyOn
+    MOV SPC700Mirrors.KeyOn, A
+
+    ;P = Pitch, T = Tunning, L = Low Byte, H = High Byte
+    ;PH PL * TH TL
+    ;(256*PH+PL)*(256*TH + TL)
+    ;256^2*PH*TH + 256*PH*TL + 256*PL*TH + PL*TL
     
-NoteASharp_Extended:
-    %ExtendedNote(Frecuencies_ASharp)
-    
-NoteA_Extended:
-    %ExtendedNote(Frecuencies_A)
-    
-NoteGSharp_Extended:
-    %ExtendedNote(Frecuencies_GSharp)
-    
-NoteG_Extended:
-    %ExtendedNote(Frecuencies_G)
-    
-NoteFSharp_Extended:
-    %ExtendedNote(Frecuencies_FSharp)
-    
-NoteF_Extended:
-    %ExtendedNote(Frecuencies_F)
-    
-NoteE_Extended:
-    %ExtendedNote(Frecuencies_F)
-    
-NoteDSharp_Extended:
-    %ExtendedNote(Frecuencies_DSharp)
-    
-NoteD_Extended:
-    %ExtendedNote(Frecuencies_D)
-    
-NoteCSharp_Extended:
-    %ExtendedNote(Frecuencies_CSharp)
-    
-NoteC_Extended:
-    %ExtendedNote(Frecuencies_C)
-    
-Rest_Extended:
-    %ExtendedDuration()
+    ;Example:
+    ;Pitch = $0385 (A4), Tunning = $0300
+    ;PH PL * TH TL = $03 $85 * $03 * $00
+    ;(256*PH+PL)*(256*TH + TL) = (256*$03 + $85)*(256*$03 + $00)
+    ;256^2*PH*TH + 256*PH*TL + 256*PL*TH + PL*TL = 256^2*$03*$03 + 256*$03*$00 + 256*$85*$03 + $85*$00
+    ;256^2*$09 + 256*$18F
+    ;$090000 + $018F00
+    ;$0A8F00
+    ;Pitch = Byte 3|Byte 2 = $0A8F
+    MOV !MulTunning+4, #$00
+    MOV !MulTunning+5, #$00
+
+    ;PL*TL
+    MOV A, TunningLowByte+Y
+    MOV Y, A
+.p1
+    MOV A, $0000+X
+    MUL YA
+    MOV !MulTunning, YA
+
+    ;256*PL*TH
+    PUSH A
+    MOV Y, !CurrentChannel
+    MOV A, TunningHighByte+Y
+    MOV Y, A
+    POP A
+    MUL YA
+    MOV !MulTunning+2, YA
+
+    ;256*PL*TH + PL*TL
+    MOV A, !MulTunning+1
+    CLRC
+    ADC A, !MulTunning+2
+    MOV !MulTunning+2, A
+    BCC +
+    INC !MulTunning+3
++
+
+    ;256*PH*TL
+    MOV Y, !CurrentChannel
+    MOV A, TunningLowByte+Y
+    MOV Y, A
+.p2
+    MOV A, $0000+X
+    MUL YA
+    PUSH A
+    CLRC
+    ;256*PH*TL + 256*PL*TH + PL*TL
+    ADDW YA, !MulTunning+2
+    MOVW !MulTunning+2, YA
+    BCC +
+    INC !MulTunning+4
++
+    ;256^2*PH*TH
+    MOV Y, !CurrentChannel
+    MOV A, TunningHighByte+Y
+    MOV Y, A
+    POP A
+    MUL YA
+    CLRC
+    ;256^2*PH*TH + 256*PH*TL + 256*PL*TH + PL*TL
+    ADDW YA, !MulTunning+4
+    MOVW !MulTunning+4, YA
+
+    MOV A, !CurrentChannel
+    XCN A
+    ORA A, #!DSPRegChannelPitchLowByte
+    MOV !RegDSPAddress, A
+
+    MOV A, !MulTunning+3
+    MOV !RegDSPValue, A
+
+    INC !RegDSPAddress
+
+    MOV A, !MulTunning+4
+    MOV !RegDSPValue, A
 RET
