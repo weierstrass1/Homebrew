@@ -89,6 +89,7 @@ Bitchecker:
 !CurrentPointer = SPC700Scratch+5
 !CurrentChannel = SPC700Scratch+7
 !CurrentBitChecker = SPC700Scratch+8
+!MulTunning = SPC700Scratch+9
 
 MusicLoop:
 
