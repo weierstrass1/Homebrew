@@ -88,6 +88,7 @@ Bitchecker:
 !EndCommandReadFlag = SPC700Scratch+4
 !CurrentPointer = SPC700Scratch+5
 !CurrentChannel = SPC700Scratch+7
+!CurrentBitChecker = SPC700Scratch+8
 
 MusicLoop:
 
@@ -119,6 +120,10 @@ MusicLoop:
     MOV Y, !CurrentDuration+1
     CMPW YA, !TotalDuration
     BNE MusicLoop_NextChannel
+
+    MOV !CurrentBitChecker, Bitchecker+Y
+    OR A, SPC700Mirrors.KeyOff
+    MOV SPC700Mirrors.KeyOff, A
 
     MOV SPC700MusicChannels_CurrentDurationLowByte+X, #$00
     MOV SPC700MusicChannels_CurrentDurationHighByte+X, #$00
@@ -170,6 +175,8 @@ MusicLoop:
     DEC !CurrentChannel
     BPL .Loop
 .Leave
+
+    %WriteDSPConstantAddress(!DSPRegKeyOn, SPC700Mirrors.KeyOn)
 RET
 
 MusicFadeCommands:
@@ -251,6 +258,21 @@ Frecuencies:
 .C
     dw $0002,$0004,$0008,$0011,$0021,$0043,$0086,$010C,$0218
 
+GenericDefaultNote:
+    %GenericNote()
+    %DefaultDuration()
+RET
+
+GenericNote:
+    %GenericNote()
+    %Duration()
+RET
+
+GenericExtendedNote:
+    %GenericNote()
+    %DurationExtended()
+RET
+
 Octave:
     INC !CurrentPointer
     BNE +
@@ -259,214 +281,144 @@ Octave:
 
     MOV A, (!CurrentPointer)
     MOV SPC700MusicChannels_Octave+Y, A
-JMP MusicLoop_NextCommand
+RET
 
 IncreaseOctave:
+    INC SPC700MusicChannels_Octave+Y
     INC SPC700MusicChannels_Octave+Y
     MOV A, SPC700MusicChannels_Octave+Y
     MOV A, #$09
     BCC +
-    MOV SPC700MusicChannels_Octave+Y, #$08
+    MOV SPC700MusicChannels_Octave+Y, #$10
 +
-JMP MusicLoop_NextCommand
+RET
 
 DecreaseOctave:
+    DEC SPC700MusicChannels_Octave+Y
     DEC SPC700MusicChannels_Octave+Y
     BPL +
     MOV SPC700MusicChannels_Octave+Y, #$00
 +
-JMP MusicLoop_NextCommand
+RET
 
 NoteB_Default:
-    %Note(Frecuencies_B)
-    %DefaultDuration()
-JMP MusicLoop_NextCommand
-
+    %DefaultNote(Frecuencies_B)
+    
 NoteASharp_Default:
-    %Note(Frecuencies_ASharp)
-    %DefaultDuration()
-JMP MusicLoop_NextCommand
-
+    %DefaultNote(Frecuencies_ASharp)
+    
 NoteA_Default:
-    %Note(Frecuencies_A)
-    %DefaultDuration()
-JMP MusicLoop_NextCommand
-
+    %DefaultNote(Frecuencies_A)
+    
 NoteGSharp_Default:
-    %Note(Frecuencies_GSharp)
-    %DefaultDuration()
-JMP MusicLoop_NextCommand
-
+    %DefaultNote(Frecuencies_GSharp)
+    
 NoteG_Default:
-    %Note(Frecuencies_G)
-    %DefaultDuration()
-JMP MusicLoop_NextCommand
-
+    %DefaultNote(Frecuencies_G)
+    
 NoteFSharp_Default:
-    %Note(Frecuencies_FSharp)
-    %DefaultDuration()
-JMP MusicLoop_NextCommand
-
+    %DefaultNote(Frecuencies_FSharp)
+    
 NoteF_Default:
-    %Note(Frecuencies_F)
-    %DefaultDuration()
-JMP MusicLoop_NextCommand
-
+    %DefaultNote(Frecuencies_F)
+    
 NoteE_Default:
-    %Note(Frecuencies_E)
-    %DefaultDuration()
-JMP MusicLoop_NextCommand
-
+    %DefaultNote(Frecuencies_F)
+    
 NoteDSharp_Default:
-    %Note(Frecuencies_DSharp)
-    %DefaultDuration()
-JMP MusicLoop_NextCommand
-
+    %DefaultNote(Frecuencies_DSharp)
+    
 NoteD_Default:
-    %Note(Frecuencies_D)
-    %DefaultDuration()
-JMP MusicLoop_NextCommand
-
+    %DefaultNote(Frecuencies_D)
+    
 NoteCSharp_Default:
-    %Note(Frecuencies_CSharp)
-    %DefaultDuration()
-JMP MusicLoop_NextCommand
-
+    %DefaultNote(Frecuencies_CSharp)
+    
 NoteC_Default:
-    %Note(Frecuencies_C)
-    %DefaultDuration()
-JMP MusicLoop_NextCommand
-
+    %DefaultNote(Frecuencies_C)
+    
 Rest_Default:
     %DefaultDuration()
-JMP MusicLoop_NextCommand
+RET
 
 
 NoteB:
     %Note(Frecuencies_B)
-    %Duration()
-JMP MusicLoop_NextCommand
-
+    
 NoteASharp:
     %Note(Frecuencies_ASharp)
-    %Duration()
-JMP MusicLoop_NextCommand
-
+    
 NoteA:
     %Note(Frecuencies_A)
-    %Duration()
-JMP MusicLoop_NextCommand
-
+    
 NoteGSharp:
     %Note(Frecuencies_GSharp)
-    %Duration()
-JMP MusicLoop_NextCommand
-
+    
 NoteG:
     %Note(Frecuencies_G)
-    %Duration()
-JMP MusicLoop_NextCommand
-
+    
 NoteFSharp:
     %Note(Frecuencies_FSharp)
-    %Duration()
-JMP MusicLoop_NextCommand
-
+    
 NoteF:
     %Note(Frecuencies_F)
-    %Duration()
-JMP MusicLoop_NextCommand
-
+    
 NoteE:
-    %Note(Frecuencies_E)
-    %Duration()
-JMP MusicLoop_NextCommand
-
+    %Note(Frecuencies_F)
+    
 NoteDSharp:
     %Note(Frecuencies_DSharp)
-    %Duration()
-JMP MusicLoop_NextCommand
-
+    
 NoteD:
     %Note(Frecuencies_D)
-    %Duration()
-JMP MusicLoop_NextCommand
-
+    
 NoteCSharp:
     %Note(Frecuencies_CSharp)
-    %Duration()
-JMP MusicLoop_NextCommand
-
+    
 NoteC:
     %Note(Frecuencies_C)
-    %Duration()
-JMP MusicLoop_NextCommand
-
+    
 Rest:
     %Duration()
-JMP MusicLoop_NextCommand
+RET
 
 
 NoteB_Extended:
-    %Note(Frecuencies_B)
-    %DurationExtended()
-JMP MusicLoop_NextCommand
-
+    %ExtendedNote(Frecuencies_B)
+    
 NoteASharp_Extended:
-    %Note(Frecuencies_ASharp)
-    %DurationExtended()
-JMP MusicLoop_NextCommand
-
+    %ExtendedNote(Frecuencies_ASharp)
+    
 NoteA_Extended:
-    %Note(Frecuencies_A)
-    %DurationExtended()
-JMP MusicLoop_NextCommand
-
+    %ExtendedNote(Frecuencies_A)
+    
 NoteGSharp_Extended:
-    %Note(Frecuencies_GSharp)
-    %DurationExtended()
-JMP MusicLoop_NextCommand
-
+    %ExtendedNote(Frecuencies_GSharp)
+    
 NoteG_Extended:
-    %Note(Frecuencies_G)
-    %DurationExtended()
-JMP MusicLoop_NextCommand
-
+    %ExtendedNote(Frecuencies_G)
+    
 NoteFSharp_Extended:
-    %Note(Frecuencies_FSharp)
-    %DurationExtended()
-JMP MusicLoop_NextCommand
-
+    %ExtendedNote(Frecuencies_FSharp)
+    
 NoteF_Extended:
-    %Note(Frecuencies_F)
-    %DurationExtended()
-JMP MusicLoop_NextCommand
-
+    %ExtendedNote(Frecuencies_F)
+    
 NoteE_Extended:
-    %Note(Frecuencies_E)
-    %DurationExtended()
-JMP MusicLoop_NextCommand
-
+    %ExtendedNote(Frecuencies_F)
+    
 NoteDSharp_Extended:
-    %Note(Frecuencies_DSharp)
-    %DurationExtended()
-JMP MusicLoop_NextCommand
-
+    %ExtendedNote(Frecuencies_DSharp)
+    
 NoteD_Extended:
-    %Note(Frecuencies_D)
-    %DurationExtended()
-JMP MusicLoop_NextCommand
-
+    %ExtendedNote(Frecuencies_D)
+    
 NoteCSharp_Extended:
-    %Note(Frecuencies_CSharp)
-    %DurationExtended()
-JMP MusicLoop_NextCommand
-
+    %ExtendedNote(Frecuencies_CSharp)
+    
 NoteC_Extended:
-    %Note(Frecuencies_C)
-    %DurationExtended()
-JMP MusicLoop_NextCommand
-
+    %ExtendedNote(Frecuencies_C)
+    
 Rest_Extended:
-    %DurationExtended()
-JMP MusicLoop_NextCommand
+    %ExtendedDuration()
+RET

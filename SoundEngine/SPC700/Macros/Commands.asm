@@ -1,8 +1,40 @@
-macro Note(table)
+macro DefaultNote(<frecTable>)
+    MOV A, #<frecTable>
+    MOV Y, #<frecTable>+1
+
+    MOVW GenericDefaultNote_p1+1, YA
+    MOVW GenericDefaultNote_p2+1, YA
+
+    JMP GenericDefaultNote
+endmacro
+
+macro Note(<frecTable>)
+    MOV A, #<frecTable>
+    MOV Y, #<frecTable>+1
+
+    MOVW GenericDefaultNote_p1+1, YA
+    MOVW GenericDefaultNote_p2+1, YA
+
+    JMP GenericNote
+endmacro
+
+macro ExtendedNote(<frecTable>)
+    MOV A, #<frecTable>
+    MOV Y, #<frecTable>+1
+
+    MOVW GenericDefaultNote_p1+1, YA
+    MOVW GenericDefaultNote_p2+1, YA
+
+    JMP GenericExtendedNote
+endmacro
+
+macro GenericNote()
     MOV A, SPC700MusicChannels_Octave+Y
-    ASL A
     MOV X, A
 
+    MOV A, !CurrentBitChecker
+    OR A, SPC700Mirrors.KeyOn
+    MOV SPC700Mirrors.KeyOn, A
 
     MOV A, Y
     XCN A
@@ -11,14 +43,15 @@ macro Note(table)
     ORA A, #!DSPRegChannelPitchLowByte
     MOV !RegDSPAddress, A
 
-    MOV A, <table>+X
+.p1
+    MOV A, $0000+X
     MOV !RegDSPValue, A
 
     POP A
     ORA A, #!DSPRegChannelPitchHighByte
     MOV !RegDSPAddress, A
-
-    MOV A, <table>+1+X
+.p2
+    MOV A, $0000+X
     MOV !RegDSPValue, A
 endmacro
 
@@ -48,7 +81,7 @@ macro DefaultDuration()
     MOV SPC700MusicChannels_TotalDurationHighByte+Y, A
 endmacro
 
-macro DurationExtended()
+macro ExtendedDuration()
     INC !CurrentPointer
     BNE +
     INC !CurrentPointer+1
