@@ -1,6 +1,6 @@
 arch spc700-raw
 
-incsrc "MacrosInclude.asm"
+incsrc "Macros/MacrosInclude.asm"
 incsrc "DSPRegs.asm"
 incsrc "Variables.asm"
 
