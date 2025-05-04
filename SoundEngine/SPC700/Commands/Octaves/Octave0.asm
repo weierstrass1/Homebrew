@@ -1,3 +1,4 @@
 Octave0:
-    MOV SPC700MusicChannels_Octave+Y, #$00
+    MOV A, #$00
+    MOV SPC700MusicChannels_Octave+Y, A
 RET
