@@ -22,6 +22,7 @@ namespace SPC700MusicChannels
     
     TunningLowByte: skip 8
     CurrentDurationLowByte: skip 8
+    TotalDurationLowByte: skip 8
     DefaultDurationLowByte: skip 8
     CurrentPointerLowByte: skip 8
     ResetPointerLowByte: skip 8
@@ -30,6 +31,7 @@ namespace SPC700MusicChannels
 
     TunningHighByte: skip 8
     CurrentDurationHighByte: skip 8
+    TotalDurationHighByte: skip 8
     DefaultDurationHighByte: skip 8
     CurrentPointerHighByte: skip 8
     ResetPointerHighByte: skip 8
