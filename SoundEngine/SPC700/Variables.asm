@@ -13,8 +13,6 @@
 !RegCounter1 = $FE
 !RegCounter2 = $FF
 
-org $0000
-
 SPC700Scratch: skip 16
 
 namespace SPC700MusicChannels

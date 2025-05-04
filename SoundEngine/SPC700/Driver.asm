@@ -1,4 +1,5 @@
 arch spc700-raw
+base $0000
 
 incsrc "Macros/MacrosInclude.asm"
 incsrc "DSPRegs.asm"
