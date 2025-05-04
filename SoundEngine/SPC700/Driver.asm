@@ -100,7 +100,7 @@ MusicLoop:
     MOV A, EngineVariables.MusicEnable
     AND A, Bitchecker+x
     BNE +
-    JMP MusicLoop_NextChannel
+    JMP ..NextChannel
 +
     MOV A, SPC700MusicChannels_TotalDurationHighByte+x
     MOV !TotalDuration+1, A 
@@ -122,7 +122,7 @@ MusicLoop:
     MOV A, !CurrentDuration
     MOV y, !CurrentDuration+1
     CMPW ya, !TotalDuration
-    BNE MusicLoop_NextChannel
+    BNE ..NextChannel
 
     MOV A, #$00
     MOV SPC700MusicChannels_CurrentDurationLowByte+x, A
