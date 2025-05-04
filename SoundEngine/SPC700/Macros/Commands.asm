@@ -2,8 +2,8 @@ macro DefaultNote(frecTable)
     MOV.b A, #<frecTable>&$FF
     MOV.b Y, #<frecTable>>>8
 
-    MOVW GenericDefaultNote_p1+1, YA
-    MOVW GenericDefaultNote_p2+1, YA
+    MOVW ProcessNote_p1+1, YA
+    MOVW ProcessNote_p2+1, YA
 
     JMP GenericDefaultNote
 endmacro
@@ -12,8 +12,8 @@ macro Note(frecTable)
     MOV.b A, #<frecTable>&$FF
     MOV.b Y, #<frecTable>>>8
 
-    MOVW GenericDefaultNote_p1+1, YA
-    MOVW GenericDefaultNote_p2+1, YA
+    MOVW ProcessNote_p1+1, YA
+    MOVW ProcessNote_p2+1, YA
 
     JMP GenericNote
 endmacro
@@ -22,8 +22,8 @@ macro ExtendedNote(frecTable)
     MOV.b A, #<frecTable>&$FF
     MOV.b Y, #<frecTable>>>8
 
-    MOVW GenericDefaultNote_p1+1, YA
-    MOVW GenericDefaultNote_p2+1, YA
+    MOVW ProcessNote_p1+1, YA
+    MOVW ProcessNote_p2+1, YA
 
     JMP GenericExtendedNote
 endmacro
