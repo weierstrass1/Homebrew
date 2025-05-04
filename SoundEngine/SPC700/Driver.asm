@@ -299,7 +299,7 @@ ProcessNote:
     MOV !MulTunning+5, #$00
 
     ;PL*TL
-    MOV A, TunningLowByte+Y
+    MOV A, SPC700MusicChannels_TunningLowByte+Y
     MOV Y, A
 .p1
     MOV A, $0000+X
@@ -309,7 +309,7 @@ ProcessNote:
     ;256*PL*TH
     PUSH A
     MOV Y, !CurrentChannel
-    MOV A, TunningHighByte+Y
+    MOV A, SPC700MusicChannels_TunningHighByte+Y
     MOV Y, A
     POP A
     MUL YA
@@ -326,7 +326,7 @@ ProcessNote:
 
     ;256*PH*TL
     MOV Y, !CurrentChannel
-    MOV A, TunningLowByte+Y
+    MOV A, SPC700MusicChannels_TunningLowByte+Y
     MOV Y, A
 .p2
     MOV A, $0000+X
@@ -341,7 +341,7 @@ ProcessNote:
 +
     ;256^2*PH*TH
     MOV Y, !CurrentChannel
-    MOV A, TunningHighByte+Y
+    MOV A, SPC700MusicChannels_TunningHighByte+Y
     MOV Y, A
     POP A
     MUL YA
