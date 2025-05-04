@@ -64,7 +64,7 @@ Main:
 	BEQ .NoMusic
 	;Song tempo calculations
 	MOV A, EngineVariables.MusicTempo
-	MUL YA
+	MUL ya
     CLRC
 	ADC A, EngineVariables.TickCounter
 	MOV EngineVariables.TickCounter, A
@@ -103,7 +103,7 @@ MusicLoop:
 
     MOV A, SPC700MusicChannels_TotalDurationLowByte+X
     MOV Y, SPC700MusicChannels_TotalDurationHighByte+X
-    MOVW !TotalDuration, YA
+    MOVW !TotalDuration, ya
 
     INC SPC700MusicChannels_CurrentDurationLowByte+X
     BNE +
@@ -119,7 +119,7 @@ MusicLoop:
 
     MOV A, !CurrentDuration
     MOV Y, !CurrentDuration+1
-    CMPW YA, !TotalDuration
+    CMPW ya, !TotalDuration
     BNE MusicLoop_NextChannel
 
     MOV SPC700MusicChannels_CurrentDurationLowByte+X, #$00
@@ -127,7 +127,7 @@ MusicLoop:
 
     MOV A, SPC700MusicChannels_CurrentPointerLowByte+X
     MOV Y, SPC700MusicChannels_CurrentPointerHighByte+X
-    MOVW !CurrentPointer, YA
+    MOVW !CurrentPointer, ya
 
     MOV !EndCommandReadFlag, #$00
 
@@ -139,7 +139,7 @@ MusicLoop:
     MOV X, !CurrentChannel
     MOV A, SPC700MusicChannels_ResetPointerLowByte+X
     MOV Y, SPC700MusicChannels_ResetPointerHighByte+X
-    MOVW !CurrentPointer, YA
+    MOVW !CurrentPointer, ya
     BRA ..CommandLoop
 +
     MOV Y, !CurrentChannel
@@ -164,9 +164,9 @@ MusicLoop:
     BEQ ..CommandLoop
 
     MOV A, !CurrentPointer
-    MOV SPC700MusicChannels_CurrentPointerLowByte+X, YA
+    MOV SPC700MusicChannels_CurrentPointerLowByte+X, ya
     MOV A, !CurrentPointer+1
-    MOV SPC700MusicChannels_CurrentPointerHighByte+X, YA
+    MOV SPC700MusicChannels_CurrentPointerHighByte+X, ya
 
 .NextChannel
     DEC !CurrentChannel
@@ -303,8 +303,8 @@ ProcessNote:
     MOV Y, A
 .p1
     MOV A, $0000+X
-    MUL YA
-    MOV !MulTunning, YA
+    MUL ya
+    MOV !MulTunning, ya
 
     ;256*PL*TH
     PUSH A
@@ -312,8 +312,8 @@ ProcessNote:
     MOV A, SPC700MusicChannels_TunningHighByte+Y
     MOV Y, A
     POP A
-    MUL YA
-    MOV !MulTunning+2, YA
+    MUL ya
+    MOV !MulTunning+2, ya
 
     ;256*PL*TH + PL*TL
     MOV A, !MulTunning+1
@@ -330,12 +330,12 @@ ProcessNote:
     MOV Y, A
 .p2
     MOV A, $0000+X
-    MUL YA
+    MUL ya
     PUSH A
     CLRC
     ;256*PH*TL + 256*PL*TH + PL*TL
-    ADDW YA, !MulTunning+2
-    MOVW !MulTunning+2, YA
+    ADDW ya, !MulTunning+2
+    MOVW !MulTunning+2, ya
     BCC +
     INC !MulTunning+4
 +
@@ -344,11 +344,11 @@ ProcessNote:
     MOV A, SPC700MusicChannels_TunningHighByte+Y
     MOV Y, A
     POP A
-    MUL YA
+    MUL ya
     CLRC
     ;256^2*PH*TH + 256*PH*TL + 256*PL*TH + PL*TL
-    ADDW YA, !MulTunning+4
-    MOVW !MulTunning+4, YA
+    ADDW ya, !MulTunning+4
+    MOVW !MulTunning+4, ya
 
     MOV A, !CurrentChannel
     XCN A
