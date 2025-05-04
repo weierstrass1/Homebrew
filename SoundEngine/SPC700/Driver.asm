@@ -352,7 +352,7 @@ ProcessNote:
 
     MOV A, !CurrentChannel
     XCN A
-    ORA A, #!DSPRegChannelPitchLowByte
+    OR A, #!DSPRegChannelPitchLowByte
     MOV !RegDSPAddress, A
 
     MOV A, !MulTunning+3
