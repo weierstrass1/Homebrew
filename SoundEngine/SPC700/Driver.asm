@@ -99,8 +99,9 @@ MusicLoop:
     MOV x, !CurrentChannel
     MOV A, EngineVariables.MusicEnable
     AND A, Bitchecker+x
-    BEQ MusicLoop_NextChannel
-
+    BNE +
+    JMP MusicLoop_NextChannel
++
     MOV A, SPC700MusicChannels_TotalDurationHighByte+x
     MOV !TotalDuration+1, A 
     MOV A, SPC700MusicChannels_TotalDurationLowByte+x
@@ -165,17 +166,18 @@ MusicLoop:
     INC !CurrentPointer+1
 +
     MOV A,!EndCommandReadFlag
-    BEQ .CommandLoop
+    BEQ ..CommandLoop
 
     MOV A, !CurrentPointer
     MOV SPC700MusicChannels_CurrentPointerLowByte+x, A
     MOV A, !CurrentPointer+1
     MOV SPC700MusicChannels_CurrentPointerHighByte+x, A
 
-.NextChannel
+..NextChannel
     DEC !CurrentChannel
-    BPL .Loop
-.Leave
+    BMI ..Leave
+    JMP .Loop
+..Leave
 
     %WriteDSPConstantAddress(!DSPRegKeyOn, SPC700Mirrors.KeyOn)
 RET
