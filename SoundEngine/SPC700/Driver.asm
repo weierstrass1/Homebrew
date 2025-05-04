@@ -159,18 +159,18 @@ MusicLoop:
     ASL A
     MOV x, A
     JMP (CommandTable+$0100+x)
-.NextCommand
+..NextCommand
     INC !CurrentPointer
     BNE +
     INC !CurrentPointer+1
 +
     MOV A,!EndCommandReadFlag
-    BEQ ..CommandLoop
+    BEQ .CommandLoop
 
     MOV A, !CurrentPointer
-    MOV SPC700MusicChannels_CurrentPointerLowByte+x, ya
+    MOV SPC700MusicChannels_CurrentPointerLowByte+x, A
     MOV A, !CurrentPointer+1
-    MOV SPC700MusicChannels_CurrentPointerHighByte+x, ya
+    MOV SPC700MusicChannels_CurrentPointerHighByte+x, A
 
 .NextChannel
     DEC !CurrentChannel
@@ -277,7 +277,8 @@ ProcessNote:
     MOV A, SPC700MusicChannels_Octave+y
     MOV x, A
 
-    MOV !CurrentBitChecker, Bitchecker+y
+    MOV A, Bitchecker+y
+    MOV !CurrentBitChecker, A
     OR A, SPC700Mirrors.KeyOff
     MOV SPC700Mirrors.KeyOff, A
 
@@ -308,7 +309,7 @@ ProcessNote:
 .p1
     MOV A, $0000+x
     MUL ya
-    MOV !MulTunning, ya
+    MOVW !MulTunning, ya
 
     ;256*PL*TH
     PUSH A
@@ -317,7 +318,7 @@ ProcessNote:
     MOV y, A
     POP A
     MUL ya
-    MOV !MulTunning+2, ya
+    MOVW !MulTunning+2, ya
 
     ;256*PL*TH + PL*TL
     MOV A, !MulTunning+1

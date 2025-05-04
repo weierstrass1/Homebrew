@@ -54,15 +54,6 @@ macro ExtendedOMinusNote(frecTable)
     %ExtendedNote(<frecTable>-2)
 endmacro
 
-
-macro DurationGeneral(valueH, valueL)
-    MOV A, <valueL>
-    MOV SPC700MusicChannels_TotalDurationLowByte+y, A
-
-    MOV A, <valueH>
-    MOV SPC700MusicChannels_TotalDurationHighByte+y, #$00
-endmacro
-
 macro Duration()
     INC !CurrentPointer
     BNE +
@@ -70,7 +61,8 @@ macro Duration()
 +
     MOV A, (!CurrentPointer)
     MOV SPC700MusicChannels_TotalDurationLowByte+y, A
-    MOV SPC700MusicChannels_TotalDurationHighByte+y, #$00
+    MOV A, #$00
+    MOV SPC700MusicChannels_TotalDurationHighByte+y, A
 endmacro
 
 macro DefaultDuration()
