@@ -1,5 +1,5 @@
 macro DefaultNote(frecTable)
-    MOV.b A, #<frecTable>
+    MOV.b A, #<frecTable>&$FF
     MOV.b Y, #<frecTable>>>8
 
     MOVW GenericDefaultNote_p1+1, YA
@@ -9,7 +9,7 @@ macro DefaultNote(frecTable)
 endmacro
 
 macro Note(frecTable)
-    MOV.b A, #<frecTable>
+    MOV.b A, #<frecTable>&$FF
     MOV.b Y, #<frecTable>>>8
 
     MOVW GenericDefaultNote_p1+1, YA
@@ -19,7 +19,7 @@ macro Note(frecTable)
 endmacro
 
 macro ExtendedNote(frecTable)
-    MOV.b A, #<frecTable>
+    MOV.b A, #<frecTable>&$FF
     MOV.b Y, #<frecTable>>>8
 
     MOVW GenericDefaultNote_p1+1, YA
