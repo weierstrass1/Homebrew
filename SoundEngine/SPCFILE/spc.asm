@@ -1,6 +1,6 @@
-;asar.exe spcfile.asm spcfile.spc
+;asar.exe spc.asm file.spc
 norom
-org $00000 : incbin "spcbase.bin"
-org $00100 ;0x100 - SPC data/driver
-base $0000 : incsrc "../SPC700/Driver.asm"
+org $0000 : incbin "spcbase.bin"
+org $0100 : base $0000 : incsrc "../SPC700/Driver.asm"
 org $10100 : incbin "dspbase.bin"
+org $0025 : dw Main_InitialSetup
