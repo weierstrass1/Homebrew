@@ -34,10 +34,10 @@ SetupTable:
     db $00
 Main:
 .InitialSetup
-	MOV X, #SetupTable_Address_End-SetupTable_Address
+	MOV x, #SetupTable_Address_End-SetupTable_Address
 -	
-    %WriteDSP("SetupTable_Address+X", "SetupTable_Value+X")
-    DEC X
+    %WriteDSP("SetupTable_Address+x", "SetupTable_Value+x")
+    DEC x
     BPL -
 
 	MOV !RegTimer0, #$10   ; Set Timer 0's frequency to 2 ms
@@ -57,7 +57,7 @@ Main:
 .noUploadRoutine
 
 	;wait for counter 0 increment
-	MOV Y, !RegCounter0
+	MOV y, !RegCounter0
 	BEQ .Loop
 
 	MOV A, EngineVariables.MusicEnable
@@ -66,8 +66,8 @@ Main:
 	MOV A, EngineVariables.MusicTempo
 	MUL ya
     CLRC
-	ADC A, EngineVariables.TickCounter
-	MOV EngineVariables.TickCounter, A
+	ADC A, EngineVariables.MusicTickCounter
+	MOV EngineVariables.MusicTickCounter, A
     BCC .NoMusic
 
     CALL MusicLoop
@@ -93,40 +93,40 @@ Bitchecker:
 
 MusicLoop:
 
-    MOV X, #$07
-    MOV !CurrentChannel, X
+    MOV x, #$07
+    MOV !CurrentChannel, x
 .Loop
-    MOV X, !CurrentChannel
-    MOV A, MusicEnable
-    AND A, Bitchecker+X
+    MOV x, !CurrentChannel
+    MOV A, EngineVariables.MusicEnable
+    AND A, Bitchecker+x
     BEQ MusicLoop_NextChannel
 
-    MOV A, SPC700MusicChannels_TotalDurationLowByte+X
-    MOV Y, SPC700MusicChannels_TotalDurationHighByte+X
+    MOV A, SPC700MusicChannels_TotalDurationLowByte+x
+    MOV y, SPC700MusicChannels_TotalDurationHighByte+x
     MOVW !TotalDuration, ya
 
-    INC SPC700MusicChannels_CurrentDurationLowByte+X
+    INC SPC700MusicChannels_CurrentDurationLowByte+x
     BNE +
-    INC SPC700MusicChannels_CurrentDurationHighByte+X
+    INC SPC700MusicChannels_CurrentDurationHighByte+x
 +
 
-    MOV A, SPC700MusicChannels_CurrentDurationLowByte+X
+    MOV A, SPC700MusicChannels_CurrentDurationLowByte+x
     MOV !CurrentDuration, A
-    MOV A, SPC700MusicChannels_CurrentDurationLowByte+X
+    MOV A, SPC700MusicChannels_CurrentDurationLowByte+x
     MOV !CurrentDuration+1, A
 
     CALL MusicFadeCommands
 
     MOV A, !CurrentDuration
-    MOV Y, !CurrentDuration+1
+    MOV y, !CurrentDuration+1
     CMPW ya, !TotalDuration
     BNE MusicLoop_NextChannel
 
-    MOV SPC700MusicChannels_CurrentDurationLowByte+X, #$00
-    MOV SPC700MusicChannels_CurrentDurationHighByte+X, #$00
+    MOV SPC700MusicChannels_CurrentDurationLowByte+x, #$00
+    MOV SPC700MusicChannels_CurrentDurationHighByte+x, #$00
 
-    MOV A, SPC700MusicChannels_CurrentPointerLowByte+X
-    MOV Y, SPC700MusicChannels_CurrentPointerHighByte+X
+    MOV A, SPC700MusicChannels_CurrentPointerLowByte+x
+    MOV y, SPC700MusicChannels_CurrentPointerHighByte+x
     MOVW !CurrentPointer, ya
 
     MOV !EndCommandReadFlag, #$00
@@ -136,25 +136,25 @@ MusicLoop:
     CMP A, #$FF
     BNE +
 
-    MOV X, !CurrentChannel
-    MOV A, SPC700MusicChannels_ResetPointerLowByte+X
-    MOV Y, SPC700MusicChannels_ResetPointerHighByte+X
+    MOV x, !CurrentChannel
+    MOV A, SPC700MusicChannels_ResetPointerLowByte+x
+    MOV y, SPC700MusicChannels_ResetPointerHighByte+x
     MOVW !CurrentPointer, ya
     BRA ..CommandLoop
 +
-    MOV Y, !CurrentChannel
+    MOV y, !CurrentChannel
 
     CMP A, #$80
     BCS +
     ASL A
-    MOV X, A
-    JMP (CommandTable+X)
+    MOV x, A
+    JMP (CommandTable+x)
 +    
     SETC
     SBC A, #$80
     ASL A
-    MOV X, A
-    JMP (CommandTable+$0100+X)
+    MOV x, A
+    JMP (CommandTable+$0100+x)
 .NextCommand
     INC !CurrentPointer
     BNE +
@@ -164,9 +164,9 @@ MusicLoop:
     BEQ ..CommandLoop
 
     MOV A, !CurrentPointer
-    MOV SPC700MusicChannels_CurrentPointerLowByte+X, ya
+    MOV SPC700MusicChannels_CurrentPointerLowByte+x, ya
     MOV A, !CurrentPointer+1
-    MOV SPC700MusicChannels_CurrentPointerHighByte+X, ya
+    MOV SPC700MusicChannels_CurrentPointerHighByte+x, ya
 
 .NextChannel
     DEC !CurrentChannel
@@ -263,17 +263,17 @@ GenericDefaultNote:
     BRA ProcessNote
 
 GenericExtendedNote:
-    %DurationExtended()
+    %ExtendedDuration()
     BRA ProcessNote
 
 GenericNote:
     %Duration()
 
 ProcessNote:
-    MOV A, SPC700MusicChannels_Octave+Y
-    MOV X, A
+    MOV A, SPC700MusicChannels_Octave+y
+    MOV x, A
 
-    MOV !CurrentBitChecker, Bitchecker+Y
+    MOV !CurrentBitChecker, Bitchecker+y
     OR A, SPC700Mirrors.KeyOff
     MOV SPC700Mirrors.KeyOff, A
 
@@ -299,18 +299,18 @@ ProcessNote:
     MOV !MulTunning+5, #$00
 
     ;PL*TL
-    MOV A, SPC700MusicChannels_TunningLowByte+Y
-    MOV Y, A
+    MOV A, SPC700MusicChannels_TunningLowByte+y
+    MOV y, A
 .p1
-    MOV A, $0000+X
+    MOV A, $0000+x
     MUL ya
     MOV !MulTunning, ya
 
     ;256*PL*TH
     PUSH A
-    MOV Y, !CurrentChannel
-    MOV A, SPC700MusicChannels_TunningHighByte+Y
-    MOV Y, A
+    MOV y, !CurrentChannel
+    MOV A, SPC700MusicChannels_TunningHighByte+y
+    MOV y, A
     POP A
     MUL ya
     MOV !MulTunning+2, ya
@@ -325,11 +325,11 @@ ProcessNote:
 +
 
     ;256*PH*TL
-    MOV Y, !CurrentChannel
-    MOV A, SPC700MusicChannels_TunningLowByte+Y
-    MOV Y, A
+    MOV y, !CurrentChannel
+    MOV A, SPC700MusicChannels_TunningLowByte+y
+    MOV y, A
 .p2
-    MOV A, $0000+X
+    MOV A, $0000+x
     MUL ya
     PUSH A
     CLRC
@@ -340,9 +340,9 @@ ProcessNote:
     INC !MulTunning+4
 +
     ;256^2*PH*TH
-    MOV Y, !CurrentChannel
-    MOV A, SPC700MusicChannels_TunningHighByte+Y
-    MOV Y, A
+    MOV y, !CurrentChannel
+    MOV A, SPC700MusicChannels_TunningHighByte+y
+    MOV y, A
     POP A
     MUL ya
     CLRC
@@ -351,7 +351,7 @@ ProcessNote:
     MOVW !MulTunning+4, ya
 
     MOV A, !CurrentChannel
-    XCN A
+    xCN A
     OR A, #!DSPRegChannelPitchLowByte
     MOV !RegDSPAddress, A
 

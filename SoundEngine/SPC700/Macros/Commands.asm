@@ -1,6 +1,6 @@
 macro DefaultNote(frecTable)
     MOV.b A, #<frecTable>&$FF
-    MOV.b Y, #<frecTable>>>8
+    MOV.b y, #<frecTable>>>8
 
     MOVW ProcessNote_p1+1, ya
     MOVW ProcessNote_p2+1, ya
@@ -10,7 +10,7 @@ endmacro
 
 macro Note(frecTable)
     MOV.b A, #<frecTable>&$FF
-    MOV.b Y, #<frecTable>>>8
+    MOV.b y, #<frecTable>>>8
 
     MOVW ProcessNote_p1+1, ya
     MOVW ProcessNote_p2+1, ya
@@ -20,7 +20,7 @@ endmacro
 
 macro ExtendedNote(frecTable)
     MOV.b A, #<frecTable>&$FF
-    MOV.b Y, #<frecTable>>>8
+    MOV.b y, #<frecTable>>>8
 
     MOVW ProcessNote_p1+1, ya
     MOVW ProcessNote_p2+1, ya
@@ -57,10 +57,10 @@ endmacro
 
 macro DurationGeneral(valueH, valueL)
     MOV A, <valueL>
-    MOV SPC700MusicChannels_TotalDurationLowByte+Y, A
+    MOV SPC700MusicChannels_TotalDurationLowByte+y, A
 
     MOV A, <valueH>
-    MOV SPC700MusicChannels_TotalDurationHighByte+Y, #$00
+    MOV SPC700MusicChannels_TotalDurationHighByte+y, #$00
 endmacro
 
 macro Duration()
@@ -69,16 +69,16 @@ macro Duration()
     INC !CurrentPointer+1
 +
     MOV A, (!CurrentPointer)
-    MOV SPC700MusicChannels_TotalDurationLowByte+Y, A
-    MOV SPC700MusicChannels_TotalDurationHighByte+Y, #$00
+    MOV SPC700MusicChannels_TotalDurationLowByte+y, A
+    MOV SPC700MusicChannels_TotalDurationHighByte+y, #$00
 endmacro
 
 macro DefaultDuration()
-    MOV A, SPC700MusicChannels_DefaultDurationLowByte+Y
-    MOV SPC700MusicChannels_TotalDurationLowByte+Y, A
+    MOV A, SPC700MusicChannels_DefaultDurationLowByte+y
+    MOV SPC700MusicChannels_TotalDurationLowByte+y, A
 
-    MOV A, SPC700MusicChannels_DefaultDurationHighByte+Y
-    MOV SPC700MusicChannels_TotalDurationHighByte+Y, A
+    MOV A, SPC700MusicChannels_DefaultDurationHighByte+y
+    MOV SPC700MusicChannels_TotalDurationHighByte+y, A
 endmacro
 
 macro ExtendedDuration()
@@ -88,7 +88,7 @@ macro ExtendedDuration()
 +
 
     MOV A, (!CurrentPointer)
-    MOV SPC700MusicChannels_TotalDurationLowByte+Y, A
+    MOV SPC700MusicChannels_TotalDurationLowByte+y, A
 
     INC !CurrentPointer
     BNE +
@@ -96,5 +96,5 @@ macro ExtendedDuration()
 +
 
     MOV A, (!CurrentPointer)
-    MOV SPC700MusicChannels_TotalDurationHighByte+Y, A
+    MOV SPC700MusicChannels_TotalDurationHighByte+y, A
 endmacro

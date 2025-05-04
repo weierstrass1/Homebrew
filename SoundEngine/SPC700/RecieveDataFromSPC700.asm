@@ -7,7 +7,7 @@ while !i < !SampleStreamingDataPerLoopSize
 endwhile
     %PrepareTransferCode(..p{!i}, 0)
 
-    MOV Y, #$00
+    MOV y, #$00
     MOV $F7, #!SampleStreamingAcknowledge
 
     MOV A, #!SampleStreamingAcknowledge
@@ -20,10 +20,10 @@ while !i <= !SampleStreamingDataPerLoopSize
     %UploadCycle()
 endwhile
 
-    MOV A, Y
+    MOV A, y
     CLRC
     ADC A, #!SampleStreamingDataPerLoopSize
-    MOV Y, A
+    MOV y, A
     CMP A, !Size
     BCC .Loop
 

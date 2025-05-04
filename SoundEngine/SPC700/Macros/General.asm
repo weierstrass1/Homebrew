@@ -30,20 +30,20 @@ macro WriteDSP(address, value)
     MOV !RegDSPValue, A
 endmacro
 
-macro WriteDSPX(address, value)
-    MOV X, <address>
-    MOV !RegDSPAddress, X
+macro WriteDSPx(address, value)
+    MOV x, <address>
+    MOV !RegDSPAddress, x
 
-    MOV X, <value>
-    MOV !RegDSPValue, X
+    MOV x, <value>
+    MOV !RegDSPValue, x
 endmacro
 
-macro WriteDSPY(address, value)
-    MOV Y, <address>
-    MOV !RegDSPAddress, Y
+macro WriteDSPy(address, value)
+    MOV y, <address>
+    MOV !RegDSPAddress, y
 
-    MOV Y, <value>
-    MOV !RegDSPValue, Y
+    MOV y, <value>
+    MOV !RegDSPValue, y
 endmacro
 
 macro KeyOnVoices()
