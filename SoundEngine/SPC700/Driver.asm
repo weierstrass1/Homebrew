@@ -101,9 +101,10 @@ MusicLoop:
     AND A, Bitchecker+x
     BEQ MusicLoop_NextChannel
 
+    MOV A, SPC700MusicChannels_TotalDurationHighByte+x
+    MOV !TotalDuration+1, A 
     MOV A, SPC700MusicChannels_TotalDurationLowByte+x
-    MOV y, SPC700MusicChannels_TotalDurationHighByte+x
-    MOVW !TotalDuration, ya
+    MOV !TotalDuration, A
 
     INC SPC700MusicChannels_CurrentDurationLowByte+x
     BNE +
@@ -122,12 +123,14 @@ MusicLoop:
     CMPW ya, !TotalDuration
     BNE MusicLoop_NextChannel
 
-    MOV SPC700MusicChannels_CurrentDurationLowByte+x, #$00
-    MOV SPC700MusicChannels_CurrentDurationHighByte+x, #$00
+    MOV A, #$00
+    MOV SPC700MusicChannels_CurrentDurationLowByte+x, A
+    MOV SPC700MusicChannels_CurrentDurationHighByte+x, A
 
     MOV A, SPC700MusicChannels_CurrentPointerLowByte+x
-    MOV y, SPC700MusicChannels_CurrentPointerHighByte+x
-    MOVW !CurrentPointer, ya
+    MOV !CurrentPointer, A
+    MOV A, SPC700MusicChannels_CurrentPointerHighByte+x
+    MOV !CurrentPointer+1, A
 
     MOV !EndCommandReadFlag, #$00
 
@@ -138,8 +141,9 @@ MusicLoop:
 
     MOV x, !CurrentChannel
     MOV A, SPC700MusicChannels_ResetPointerLowByte+x
-    MOV y, SPC700MusicChannels_ResetPointerHighByte+x
-    MOVW !CurrentPointer, ya
+    MOV !CurrentPointer, A
+    MOV A, SPC700MusicChannels_ResetPointerHighByte+x
+    MOV !CurrentPointer+1, A
     BRA ..CommandLoop
 +
     MOV y, !CurrentChannel
