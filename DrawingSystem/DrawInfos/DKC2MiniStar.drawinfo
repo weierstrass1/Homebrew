@@ -1,0 +1,74 @@
+Dynamic:
+    true
+
+Tiles:
+Frame0_Frame0_Tiles:
+	db $00
+Frame1_Frame1_Tiles:
+	db $00
+Frame2_Frame2_Tiles:
+	db $00
+Frame3_Frame3_Tiles:
+	db $00
+Frame4_Frame4_Tiles:
+	db $00
+Frame5_Frame5_Tiles:
+	db $00
+Frame6_Frame6_Tiles:
+	db $00
+Frame7_Frame7_Tiles:
+	db $00
+
+XDisplacements:
+Frame0_Frame0_XDisp:
+	db $00
+Frame1_Frame1_XDisp:
+	db $01
+Frame2_Frame2_XDisp:
+	db $00
+Frame3_Frame3_XDisp:
+	db $00
+Frame4_Frame4_XDisp:
+	db $00
+Frame5_Frame5_XDisp:
+	db $01
+Frame6_Frame6_XDisp:
+	db $00
+Frame7_Frame7_XDisp:
+	db $00
+
+YDisplacements:
+Frame0_Frame0_YDisp:
+	db $02
+Frame1_Frame1_YDisp:
+	db $02
+Frame2_Frame2_YDisp:
+	db $03
+Frame3_Frame3_YDisp:
+	db $02
+Frame4_Frame4_YDisp:
+	db $02
+Frame5_Frame5_YDisp:
+	db $02
+Frame6_Frame6_YDisp:
+	db $03
+Frame7_Frame7_YDisp:
+	db $02
+
+Sizes:
+Frame0_Frame0_Sizes:
+	db $02
+Frame1_Frame1_Sizes:
+	db $02
+Frame2_Frame2_Sizes:
+	db $02
+Frame3_Frame3_Sizes:
+	db $02
+Frame4_Frame4_Sizes:
+	db $02
+Frame5_Frame5_Sizes:
+	db $02
+Frame6_Frame6_Sizes:
+	db $02
+Frame7_Frame7_Sizes:
+	db $02

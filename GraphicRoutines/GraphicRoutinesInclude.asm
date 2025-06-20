@@ -1,0 +1,8 @@
+incsrc "../GraphicRoutines/SamePropertiesAllBigTiles.asm"
+incsrc "../GraphicRoutines/SameProperties.asm"
+incsrc "../GraphicRoutines/SameCodePropertiesAllBigTiles.asm"
+incsrc "../GraphicRoutines/SameXCodePropertiesAllBigTiles.asm"
+incsrc "../GraphicRoutines/SamePropertiesWithFlipX.asm"
+incsrc "../GraphicRoutines/SamePropertiesAllBigTilesWithFlipX.asm"
+incsrc "../GraphicRoutines/SamePropertiesAllSmallTiles.asm"
+incsrc "../GraphicRoutines/SameYCodePropertiesAllBigTiles.asm"

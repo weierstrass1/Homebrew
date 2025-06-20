@@ -5,7 +5,8 @@ incsrc "Macros/MacrosInclude.asm"
 incsrc "Setup/Header.asm"
 incsrc "Setup/CPUVector.asm"
 
-org $008000|!FastromBNK
+!CurrentBank = $008000|!FastromBNK
+org !CurrentBank
 StartGame:
 ResetHandlerEmu:
     SEI                       ; Disable IRQ
@@ -125,7 +126,10 @@ incsrc "Gamemodes/GamemodeManagement.asm"
 incsrc "Scroll/ScrollingSystem.asm"
 incsrc "EntitySystem/EntitySystem.asm"
 
+!CurrentBank #= !CurrentBank+$010000
+org !CurrentBank
 incsrc "EntitySystem/EntitiesInclude.asm"
 
+incsrc "GraphicRoutines/GraphicRoutinesInclude.asm"
 incsrc "Routines/RoutinesInclude.asm"
 incsrc "Resources/ResourceInclude.asm"
