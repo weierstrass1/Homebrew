@@ -17,7 +17,7 @@ NMIHandlerNative:
 .ShortNMI
     LDA.b DirectPage.ScreenDisplayMirror
     AND #$0F
-    STA.w PPURegisters.ScreenDisplayReg2100_x000bbbb
+    STA.w PPURegisters.ScreenDisplayReg2100
 
     REP #$30
     PLY
@@ -29,27 +29,27 @@ NMIHandlerNative:
 RTI
     ;FullNMI Runs once every 1 gameloop.
 .FullNMI
-    LDA.w HardwareRegisters.NMIFlagAnd5A22VersionReg4210_n000vvvv
+    LDA.w HardwareRegisters.NMIFlagAnd5A22VersionReg4210
     LDA #$80
     ORA.b DirectPage.ScreenDisplayMirror
-    STA.w PPURegisters.ScreenDisplayReg2100_x000bbbb
+    STA.w PPURegisters.ScreenDisplayReg2100
 
     LDA.b DirectPage.HDMAEnablerMirror
     STA.w HardwareRegisters.HDMAEnablerReg420C
 
     LDA.b DirectPage.OAMSizeAndAddressMirror
-    STA.w PPURegisters.OAMSizeAndAddressReg2101_sssnnbbb
+    STA.w PPURegisters.OAMSizeAndAddressReg2101
     LDA.b DirectPage.PixelationMirror
-    STA.w PPURegisters.ScreenPixelationReg2106_xxxxDCBA
+    STA.w PPURegisters.ScreenPixelationReg2106
 
     LDA.b DirectPage.ChangeColorMathConfigFlag
     BEQ +
     STZ.b DirectPage.ChangeColorMathConfigFlag
 
     LDA.b DirectPage.ColorMathConfigMirror
-    STA.w PPURegisters.ColorMathDesignationReg2131_shbo4321
+    STA.w PPURegisters.ColorMathDesignationReg2131
     LDA.b DirectPage.ColorAdditionSelectMirror
-    STA.w PPURegisters.ColorAdditionSelectReg2130_ccmm00sd
+    STA.w PPURegisters.ColorAdditionSelectReg2130
 +
 
     LDA.b DirectPage.ChangeMainSubScreenConfigFlag
@@ -57,9 +57,9 @@ RTI
     STZ.b DirectPage.ChangeMainSubScreenConfigFlag
 
     LDA.b DirectPage.MainScreenDesignationMirror
-    STA.w PPURegisters.MainScreenDesignationReg212C_000o4321
+    STA.w PPURegisters.MainScreenDesignationReg212C
     LDA.b DirectPage.SubScreenDesignation
-    STA.w PPURegisters.SubScreenDesignationReg212D_000o4321
+    STA.w PPURegisters.SubScreenDesignationReg212D
 +
 
     LDA.b DirectPage.ChangeWindowConfigFlag
@@ -67,15 +67,15 @@ RTI
     STZ.b DirectPage.ChangeWindowConfigFlag
 
     LDA.b DirectPage.WindowSettingsLayer12Mirror
-    STA.w PPURegisters.WindowMaskSettingsBG12Reg2123_ABCDabcd
+    STA.w PPURegisters.WindowMaskSettingsBG12Reg2123
     LDA.b DirectPage.WindowSettingsLayer34Mirror
-    STA.w PPURegisters.WindowMaskSettingsBG34Reg2124_ABCDabcd
+    STA.w PPURegisters.WindowMaskSettingsBG34Reg2124
     LDA.b DirectPage.WindowSettingsObjectAndColorWindowMirror
-    STA.w PPURegisters.WindowMaskSettingsOAMColorWindowReg2125_ABCDabcd
+    STA.w PPURegisters.WindowMaskSettingsOAMColorWindowReg2125
     LDA.b DirectPage.MainScreenWindowMaskMirror
-    STA.w PPURegisters.WindowLogicBG1234Reg212A_44332211
+    STA.w PPURegisters.WindowLogicBG1234Reg212A
     LDA.b DirectPage.SubScreenWindowMaskMirror
-    STA.w PPURegisters.WindowLogicOAMColorwindowReg212B_0000ccoo
+    STA.w PPURegisters.WindowLogicOAMColorwindowReg212B
 +
 
     LDA.b DirectPage.UseWindowFlag
@@ -95,23 +95,23 @@ RTI
     STZ.b DirectPage.ChangeLayerConfigFlag
 
     LDA.b DirectPage.ModeMirror
-    STA.w PPURegisters.SNESModeReg2105_DCBAemmm
+    STA.w PPURegisters.SNESModeReg2105
 
     REP #$20
     LDA.b DirectPage.TilemapAddressLayer1Mirror
-    STA.w PPURegisters.BG1TileAddressAndSizeReg2107_aaaaaayx
+    STA.w PPURegisters.BG1TileAddressAndSizeReg2107
     LDA.b DirectPage.TilemapAddressLayer3Mirror
-    STA.w PPURegisters.BG3TileAddressAndSizeReg2109_aaaaaayx
+    STA.w PPURegisters.BG3TileAddressAndSizeReg2109
     LDA.b DirectPage.GraphicsAddressLayer12Mirror
-    STA.w PPURegisters.BG12GraphicsAddressReg210B_22221111
+    STA.w PPURegisters.BG12GraphicsAddressReg210B
     SEP #$20
 +
     LDA.b DirectPage.FixedColorNMIMirror
-    STA.w PPURegisters.FixedColorDataReg2132_Write1OrMore_BGRVVVVV
+    STA.w PPURegisters.FixedColorDataReg2132
     LDA.b DirectPage.FixedColorNMIMirror+1
-    STA.w PPURegisters.FixedColorDataReg2132_Write1OrMore_BGRVVVVV
+    STA.w PPURegisters.FixedColorDataReg2132
     LDA.b DirectPage.FixedColorNMIMirror+2
-    STA.w PPURegisters.FixedColorDataReg2132_Write1OrMore_BGRVVVVV
+    STA.w PPURegisters.FixedColorDataReg2132
 
     LDX #$00
     JSR.w (NMI_ScrollRoutine,x)
@@ -137,7 +137,7 @@ RTI
 
     LDA.b DirectPage.ScreenDisplayMirror
     AND #$0F
-    STA.w PPURegisters.ScreenDisplayReg2100_x000bbbb
+    STA.w PPURegisters.ScreenDisplayReg2100
 
     REP #$30
     PLY

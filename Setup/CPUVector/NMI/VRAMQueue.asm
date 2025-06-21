@@ -4,7 +4,7 @@ VRAMQueueRoutine:
 RTS
 +
     LDX #$80                
-	STX.w PPURegisters.VideoPortControlReg2115_i000mmii
+	STX.w PPURegisters.VideoPortControlReg2115
 
     DEC A
     ASL

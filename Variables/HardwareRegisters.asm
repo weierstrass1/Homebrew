@@ -1,6 +1,6 @@
 struct HardwareRegisters $004200
-    .InterruptEnableFlagsReg4200_n0yx000a: skip 1
-    .ProgramableIOOutPortReg4201_abxxxxxx: skip 1
+    .InterruptEnableFlagsReg4200: skip 1
+    .ProgramableIOOutPortReg4201: skip 1
     .MultiplicandAReg4202: skip 1
     .MultiplicandBReg4203: skip 1
     .DividendReg4204: skip 2
@@ -9,15 +9,15 @@ struct HardwareRegisters $004200
     .VTimerReg4209: skip 2
     .DMAEnablerReg420B: skip 1
     .HDMAEnablerReg420C: skip 1
-    .ROMAccessSpeedReg420D_0000000f: skip 3
-    .NMIFlagAnd5A22VersionReg4210_n000vvvv: skip 1
-    .IRQFlagReg4211_i0000000: skip 1
-    .PPUStatusReg4212_vh00000a: skip 1
-    .ProgramableIOInPortReg4213_abxxxxxx: skip 1
+    .ROMAccessSpeedReg420D: skip 3
+    .NMIFlagAnd5A22VersionReg4210: skip 1
+    .IRQFlagReg4211: skip 1
+    .PPUStatusReg4212: skip 1
+    .ProgramableIOInPortReg4213: skip 1
     .DivisionResultReg4214: skip 2
     .DivisionRemainderMultiplicationResultReg4216: skip 2
-    .ControllerPort1Data1Reg4218_byetUDLRaxlr0000: skip 2
-    .ControllerPort2Data1Reg421A_byetUDLRaxlr0000: skip 2
-    .ControllerPort1Data2Reg421C_byetUDLRaxlr0000: skip 2
-    .ControllerPort2Data2Reg421E_byetUDLRaxlr0000: skip 2
+    .ControllerPort1Data1Reg4218: skip 2
+    .ControllerPort2Data1Reg421A: skip 2
+    .ControllerPort1Data2Reg421C: skip 2
+    .ControllerPort2Data2Reg421E: skip 2
 endstruct
