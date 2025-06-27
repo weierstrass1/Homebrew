@@ -55,6 +55,7 @@ if <y> == 1
     LDA DirectPage.Scratch+$02
     JSL Routines_YIsValid
     BCS +
+    PLB
 RTL
 +
 endif
@@ -65,6 +66,7 @@ if <x> == 1
     LDA DirectPage.Scratch+$00
     JSL Routines_XIsValid
     BCS +
+    PLB
 RTL
 +
 endif
@@ -219,7 +221,11 @@ else
     endif
     STA OAM_Buffer_Tile.Property,x
 
+    if <code> == 1
     LDA DirectPage.Scratch+$04
+    else
+    LDA Tiles,y
+    endif
 endif
     STA OAM_Buffer_Tile.Number,x
 
@@ -230,6 +236,8 @@ endif
     LSR
     LSR
     TAX
+
+    INC.w OAM_SizeCurrentFrame
 
 if <size> == 1   
 if <bigSize> == 1
@@ -248,9 +256,8 @@ endif
 .Next
 if <onetile> == 0
     CPY DirectPage.Scratch+$07
-    BNE +
-RTL
-+
+    BEQ +
+
     DEY
 
     INX
@@ -258,7 +265,8 @@ RTL
     INX
     INX
     CPX #$0200
-    BCS .Loop
+    BCC .Loop
++
     PLB
 endif
 RTL

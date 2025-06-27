@@ -1,0 +1,90 @@
+Dynamic:
+    false
+
+Tiles:
+OniririTest0_Tiles:
+    db $30,$31,$10,$11,$00,$01
+OniririTest1_Tiles:
+    db $33,$34,$13,$14,$03,$04
+OniririTest2_Tiles:
+    db $36,$37,$16,$17,$06,$07
+OniririTest3_Tiles:
+    db $39,$3A,$19,$1A,$09,$0A
+OniririTest4_Tiles:
+    db $3C,$3D,$1C,$1D,$0C,$0D
+OniririTest5_Tiles:
+    db $80,$81,$60,$61,$50,$51
+OniririTest6_Tiles:
+    db $83,$84,$63,$64,$53,$54
+OniririTest7_Tiles:
+    db $86,$87,$66,$67,$56,$57
+
+XDisplacements:
+OniririTest0_XDisp:
+    db $00,$08,$00,$08,$00,$08
+OniririTest1_XDisp:
+    db $00,$08,$00,$08,$00,$08
+OniririTest2_XDisp:
+    db $00,$08,$00,$08,$00,$08
+OniririTest3_XDisp:
+    db $00,$08,$00,$08,$00,$08
+OniririTest4_XDisp:
+    db $00,$08,$00,$08,$00,$08
+OniririTest5_XDisp:
+    db $00,$08,$00,$08,$00,$08
+OniririTest6_XDisp:
+    db $00,$08,$00,$08,$00,$08
+OniririTest7_XDisp:
+    db $00,$08,$00,$08,$00,$08
+OniririTest0_XDispFlipX:
+    db $08,$00,$08,$00,$08,$00
+OniririTest1_XDispFlipX:
+    db $08,$00,$08,$00,$08,$00
+OniririTest2_XDispFlipX:
+    db $08,$00,$08,$00,$08,$00
+OniririTest3_XDispFlipX:
+    db $08,$00,$08,$00,$08,$00
+OniririTest4_XDispFlipX:
+    db $08,$00,$08,$00,$08,$00
+OniririTest5_XDispFlipX:
+    db $08,$00,$08,$00,$08,$00
+OniririTest6_XDispFlipX:
+    db $08,$00,$08,$00,$08,$00
+OniririTest7_XDispFlipX:
+    db $08,$00,$08,$00,$08,$00
+
+YDisplacements:
+OniririTest0_YDisp:
+    db $00,$00,$F0,$F0,$E8,$E8
+OniririTest1_YDisp:
+    db $00,$00,$F0,$F0,$E8,$E8
+OniririTest2_YDisp:
+    db $00,$00,$F0,$F0,$E8,$E8
+OniririTest3_YDisp:
+    db $00,$00,$F0,$F0,$E8,$E8
+OniririTest4_YDisp:
+    db $00,$00,$F0,$F0,$E8,$E8
+OniririTest5_YDisp:
+    db $00,$00,$F0,$F0,$E8,$E8
+OniririTest6_YDisp:
+    db $00,$00,$F0,$F0,$E8,$E8
+OniririTest7_YDisp:
+    db $00,$00,$F0,$F0,$E8,$E8
+
+Sizes:
+OniririTest0_Sizes:
+    db $02,$02,$02,$02,$02,$02
+OniririTest1_Sizes:
+    db $02,$02,$02,$02,$02,$02
+OniririTest2_Sizes:
+    db $02,$02,$02,$02,$02,$02
+OniririTest3_Sizes:
+    db $02,$02,$02,$02,$02,$02
+OniririTest4_Sizes:
+    db $02,$02,$02,$02,$02,$02
+OniririTest5_Sizes:
+    db $02,$02,$02,$02,$02,$02
+OniririTest6_Sizes:
+    db $02,$02,$02,$02,$02,$02
+OniririTest7_Sizes:
+    db $02,$02,$02,$02,$02,$02

@@ -3,9 +3,12 @@ ClearOAMBuffer:
     CMP.w OAM_SizeCurrentFrame
     BEQ .Return
     BCS +
-    LDA.w OAM_SizeLastFrame 
-    STA.w OAM_SizeCurrentFrame
 .Return
+    LDA.w OAM_SizeCurrentFrame
+    STA.w OAM_MaxSizeCurrentFrame
+    STA.w OAM_SizeLastFrame
+
+    STZ.w OAM_SizeCurrentFrame
 RTS
 +
     REP #$30
@@ -23,19 +26,67 @@ RTS
     TAY
     SEP #$20
 
+    LDA OAM_ClearRoutine,y 
+    PHA
+
     LDA #$60
     STA.w OAM_ClearRoutine,y 
     
     LDX #$0000
     LDA #$F0
-    JSR (DirectPage.Scratch+2,x)
+    JSR.W (DirectPage.Scratch+2,x)
 
-    LDA #$8D
+    PLA
     STA.w OAM_ClearRoutine,y
     SEP #$30
 
-    LDA.w OAM_SizeLastFrame 
-    STA.w OAM_SizeCurrentFrame
+    LDA.w OAM_SizeCurrentFrame
+    STA.w OAM_MaxSizeCurrentFrame
+    CMP.w OAM_SizeLastFrame
+    BCS +
+    LDA.w OAM_SizeLastFrame
+    STA.w OAM_MaxSizeCurrentFrame 
++
+    LDA.w OAM_SizeCurrentFrame
+    STA.w OAM_SizeLastFrame
+
+    STZ.w OAM_SizeCurrentFrame
+RTS
+
+MergeSizesOAMBuffer:
+    LDA.w OAM_SizeCurrentFrame 
+    BNE +
+RTS
++
+    REP #$31
+    AND #$00FF
+    ADC #$0003
+    LSR
+    LSR
+    STA.b DirectPage.Scratch
+    ASL
+    ASL
+    STA.b DirectPage.Scratch+$02
+    ASL
+    ASL
+    CLC
+    ADC.b DirectPage.Scratch+$02
+    CLC
+    ADC.b DirectPage.Scratch
+    TAX
+    SEP #$20
+
+    LDA.w OAM_MergeSizesRoutine,x
+    PHA
+
+    LDA #$60
+    STA.w OAM_MergeSizesRoutine,x
+    
+    JSR OAM_MergeSizesRoutine
+
+    PLA
+    STA OAM_MergeSizesRoutine,x
+    SEP #$10
 RTS
 
 ClearAllOAMBuffer:
@@ -43,7 +94,25 @@ ClearAllOAMBuffer:
 .StartClear
 !i = 0
 while !i < 128
-    STA.w OAM_Buffer_Tile.Y+(!i*4)
+    STA.w OAM_Buffer_Tile[!i].Y
+    !i #= !i+1
+endwhile
+RTS
+
+MergeSizes:
+!i = 0
+while !i < 32
+    LDA.w OAM_Buffer_Sizes+(!i*4)+3
+    ASL
+    ASL
+    ORA.w OAM_Buffer_Sizes+(!i*4)+2
+    ASL
+    ASL
+    ORA.w OAM_Buffer_Sizes+(!i*4)+1
+    ASL
+    ASL
+    ORA.w OAM_Buffer_Sizes+(!i*4)+0
+    STA.w OAM_Buffer_SizesCompressed+!i
     !i #= !i+1
 endwhile
 RTS
@@ -73,12 +142,39 @@ MoveOAMClearToRAM:
     STA.w HardwareRegisters.DMAEnablerReg420B
 
     LDA #$60
-    STA OAM_ClearRoutine+(128*3)
+    STA.W OAM_ClearRoutine+(128*3)
+RTS
+
+MoveMergeSizeToRAM:
+    LDA.b #OAM_MergeSizesRoutine>>16
+    STA.w PPURegisters.WRAMAddressReg2181+2
+
+    LDA.b #MergeSizes>>16
+    STA.w DMARegisters[!DMAChannel].SourceAddressReg43x2+2
+
+    REP #$20
+    LDA.w #OAM_MergeSizesRoutine
+    STA.w PPURegisters.WRAMAddressReg2181
+
+    LDA #$8000
+    STA.w DMARegisters[!DMAChannel].ControlReg43x0_da0ifttt
+
+    LDA.w #MergeSizes
+    STA.w DMARegisters[!DMAChannel].SourceAddressReg43x2
+
+    LDA.w #(31*21)
+    STA.w DMARegisters[!DMAChannel].SizeReg43x5
+    SEP #$20
+
+    LDA #!DMAEnabler
+    STA.w HardwareRegisters.DMAEnablerReg420B
+
+    LDA #$60
+    STA.W OAM_MergeSizesRoutine+(32*21)
 RTS
 
 SelectOAMRoutine:
-    LDA.w OAM_SizeCurrentFrame
-    ORA.w OAM_SizeLastFrame
+    LDA.w OAM_MaxSizeCurrentFrame
     BNE +
 
     REP #$20
@@ -87,7 +183,6 @@ SelectOAMRoutine:
     SEP #$20
 RTS
 +
-    LDA.w OAM_SizeLastFrame
     CMP #100
     BCC +
     REP #$20
@@ -106,15 +201,15 @@ RTS
     STA.w NMI_OAMRoutine
     SEP #$20
 
-    LDA.w OAM_SizeLastFrame
+    LDA.w OAM_MaxSizeCurrentFrame
+    INC A
     INC A
     INC A
     AND #$FC
-    CMP #127
+    CMP #128
     BCC +
-    LDA #127
+    LDA #128
 +
-    INC A
     LSR
     LSR
     STA.w NMI_OAMDMASize2
@@ -135,7 +230,7 @@ RTS
     LDA.w #OAM_Buffer_Tile
     STA.b DMARegisters[!DMAChannel].SourceAddressReg43x2
 
-    LDA.w #544
+    LDA.w #$0220
     STA.b DMARegisters[!DMAChannel].SizeReg43x5
     SEP #$20
 
@@ -162,7 +257,7 @@ RTS
     LDX.w NMI_OAMDMASize2
     STX.b DMARegisters[!DMAChannel].SizeReg43x5
 
-    LDA #512
+    LDA #$0100
     STA.w PPURegisters.OAMAddressLowByteReg2102
 
     LDA.w #OAM_Buffer_SizesCompressed

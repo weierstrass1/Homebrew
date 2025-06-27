@@ -55,6 +55,14 @@ ResetHandlerEmu:
     STA.b DirectPage.WindowSettingsObjectAndColorWindowMirror
     STA.b DirectPage.MainScreenWindowMaskMirror
     STA.b DirectPage.SubScreenWindowMaskMirror
+    STA.b DirectPage.Controller1
+    STA.b DirectPage.LastController1
+    STA.b DirectPage.Controller1Down
+    STA.b DirectPage.Controller1Up
+    STA.b DirectPage.Controller2
+    STA.b DirectPage.LastController2
+    STA.b DirectPage.Controller2Down
+    STA.b DirectPage.Controller2Up
 
     TCD                       ;/             (mirror of $7E0000-FF)
     LDA #!Stack               ;\ Set the Stack Pointer
@@ -78,6 +86,7 @@ ResetHandlerEmu:
     STA.b DirectPage.ModeMirror
 
     JSR MoveOAMClearToRAM
+    JSR MoveMergeSizeToRAM
     JSR ClearAllOAMBuffer
     JSR ClearEntities
     JSR SetupScrollRoutine
@@ -101,21 +110,27 @@ ResetHandlerEmu:
     STZ.w NMI_DMACurrentDataSent
     STZ.w NMI_DMACurrentDataSent+1
 
+    JSR ControllerHandler
+
     JSR SetupScrollNextFrame
     JSR GamemodeCall
     JSR ProcessFixedColor
     JSR SetupScrollRoutine
     JSR SelectOAMRoutine
-    LDA #$60
-    STA.w OAM_SizeLastFrame
-    JSR SelectOAMRoutine
+
+    JSR MergeSizesOAMBuffer
     JSR ClearOAMBuffer
+    JSR SelectOAMRoutine
     
+    ;JSR HandleScrolling
+
+
     STZ.b DirectPage.GameLoopRunning
     
     WAI
     BRA .GameLoop
 
+incsrc "Controller/Controller.asm"
 incsrc "Setup/CPUVector/COP.asm"
 incsrc "Setup/CPUVector/BRK.asm"
 incsrc "Setup/CPUVector/Abort.asm"

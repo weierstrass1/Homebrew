@@ -38,16 +38,18 @@ PositionIsValid:
     BPL .posYOffset
 .negYOffset
     CMP #$FFF0
-    SEP #$20
     BCS .continueX
+    SEP #$20
+    CLC
+RTL
 .posYOffset
     CMP #$00E0
-    SEP #$20
     BCC .continueX
+    SEP #$20
     CLC
 RTL
 .continueX
-    LDA DirectPage.Scratch+$08
+    LDA DirectPage.Scratch+$09
     BPL .posXOffset
 .negXOffset
     CMP #$FFF0

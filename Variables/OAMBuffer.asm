@@ -12,5 +12,7 @@ namespace OAM
     namespace off
     SizeCurrentFrame: skip 1
     SizeLastFrame: skip 1
+    MaxSizeCurrentFrame: skip 1
     ClearRoutine: skip (128*3)+1
+    MergeSizesRoutine: skip (32*21)+1
 namespace off
