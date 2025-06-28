@@ -2,6 +2,7 @@ YIsValid:
     BPL .posYOffset
 .negYOffset
     CMP #$FFF0
+    LDA #$0000
     SEP #$20
 RTL
 .posYOffset
@@ -18,6 +19,7 @@ XIsValid:
     BPL .posXOffset
 .negXOffset
     CMP #$FFF0
+    LDA #$0000
     SEP #$20
     BCS .continueXHigh
 RTL
@@ -53,6 +55,7 @@ RTL
     BPL .posXOffset
 .negXOffset
     CMP #$FFF0
+    LDA #$0000
     SEP #$20
     BCS .continueXHigh
     CLC

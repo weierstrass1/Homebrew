@@ -29,6 +29,7 @@ NMIHandlerNative:
 RTI
     ;FullNMI Runs once every 1 gameloop.
 .FullNMI
+
     LDA.w HardwareRegisters.NMIFlagAnd5A22VersionReg4210
     LDA #$80
     ORA.b DirectPage.ScreenDisplayMirror
@@ -115,7 +116,6 @@ RTI
 
     LDX #$00
     JSR.w (NMI_ScrollRoutine,x)
-
 
     REP #$30
     LDA.w #DMARegisters       ;\ Set the Direct Page $004300-FF

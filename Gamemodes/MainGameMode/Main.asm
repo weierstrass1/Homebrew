@@ -2,10 +2,6 @@ Init:
     STZ.b DirectPage.Scratch
     STZ.b DirectPage.Scratch+1
     JSL AddLastEntity
-
-    STZ.b DirectPage.Scratch
-    STZ.b DirectPage.Scratch+1
-    JSL AddLastEntity
 RTS
 
 Main:

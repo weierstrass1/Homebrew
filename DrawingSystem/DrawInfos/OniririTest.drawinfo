@@ -3,73 +3,65 @@ Dynamic:
 
 Tiles:
 OniririTest0_Tiles:
-    db $30,$31,$10,$11,$00,$01
+    db $40,$42,$20,$22,$00,$02
 OniririTest1_Tiles:
-    db $33,$34,$13,$14,$03,$04
+    db $44,$46,$24,$26,$04,$06
 OniririTest2_Tiles:
-    db $36,$37,$16,$17,$06,$07
+    db $48,$4A,$28,$2A,$08,$0A
 OniririTest3_Tiles:
-    db $39,$3A,$19,$1A,$09,$0A
+    db $4C,$4E,$2C,$2E,$0C,$0E
 OniririTest4_Tiles:
-    db $3C,$3D,$1C,$1D,$0C,$0D
+    db $A0,$A2,$80,$82,$60,$62
 OniririTest5_Tiles:
-    db $80,$81,$60,$61,$50,$51
+    db $A4,$A6,$84,$86,$64,$66
 OniririTest6_Tiles:
-    db $83,$84,$63,$64,$53,$54
-OniririTest7_Tiles:
-    db $86,$87,$66,$67,$56,$57
+    db $A8,$AA,$88,$8A,$68,$6A
 
 XDisplacements:
 OniririTest0_XDisp:
-    db $00,$08,$00,$08,$00,$08
+    db $00,$10,$00,$10,$00,$10
 OniririTest1_XDisp:
-    db $00,$08,$00,$08,$00,$08
+    db $00,$10,$00,$10,$00,$10
 OniririTest2_XDisp:
-    db $00,$08,$00,$08,$00,$08
+    db $00,$10,$00,$10,$00,$10
 OniririTest3_XDisp:
-    db $00,$08,$00,$08,$00,$08
+    db $00,$10,$00,$10,$00,$10
 OniririTest4_XDisp:
-    db $00,$08,$00,$08,$00,$08
+    db $00,$10,$00,$10,$00,$10
 OniririTest5_XDisp:
-    db $00,$08,$00,$08,$00,$08
+    db $00,$10,$00,$10,$00,$10
 OniririTest6_XDisp:
-    db $00,$08,$00,$08,$00,$08
-OniririTest7_XDisp:
-    db $00,$08,$00,$08,$00,$08
+    db $00,$10,$00,$10,$00,$10
 OniririTest0_XDispFlipX:
-    db $08,$00,$08,$00,$08,$00
+    db $10,$00,$10,$00,$10,$00
 OniririTest1_XDispFlipX:
-    db $08,$00,$08,$00,$08,$00
+    db $10,$00,$10,$00,$10,$00
 OniririTest2_XDispFlipX:
-    db $08,$00,$08,$00,$08,$00
+    db $10,$00,$10,$00,$10,$00
 OniririTest3_XDispFlipX:
-    db $08,$00,$08,$00,$08,$00
+    db $10,$00,$10,$00,$10,$00
 OniririTest4_XDispFlipX:
-    db $08,$00,$08,$00,$08,$00
+    db $10,$00,$10,$00,$10,$00
 OniririTest5_XDispFlipX:
-    db $08,$00,$08,$00,$08,$00
+    db $10,$00,$10,$00,$10,$00
 OniririTest6_XDispFlipX:
-    db $08,$00,$08,$00,$08,$00
-OniririTest7_XDispFlipX:
-    db $08,$00,$08,$00,$08,$00
+    db $10,$00,$10,$00,$10,$00
 
 YDisplacements:
 OniririTest0_YDisp:
-    db $00,$00,$F0,$F0,$E8,$E8
+    db $00,$00,$F0,$F0,$E0,$E0
 OniririTest1_YDisp:
-    db $00,$00,$F0,$F0,$E8,$E8
+    db $00,$00,$F0,$F0,$E0,$E0
 OniririTest2_YDisp:
-    db $00,$00,$F0,$F0,$E8,$E8
+    db $00,$00,$F0,$F0,$E0,$E0
 OniririTest3_YDisp:
-    db $00,$00,$F0,$F0,$E8,$E8
+    db $00,$00,$F0,$F0,$E0,$E0
 OniririTest4_YDisp:
-    db $00,$00,$F0,$F0,$E8,$E8
+    db $00,$00,$F0,$F0,$E0,$E0
 OniririTest5_YDisp:
-    db $00,$00,$F0,$F0,$E8,$E8
+    db $00,$00,$F0,$F0,$E0,$E0
 OniririTest6_YDisp:
-    db $00,$00,$F0,$F0,$E8,$E8
-OniririTest7_YDisp:
-    db $00,$00,$F0,$F0,$E8,$E8
+    db $00,$00,$F0,$F0,$E0,$E0
 
 Sizes:
 OniririTest0_Sizes:
@@ -85,6 +77,4 @@ OniririTest4_Sizes:
 OniririTest5_Sizes:
     db $02,$02,$02,$02,$02,$02
 OniririTest6_Sizes:
-    db $02,$02,$02,$02,$02,$02
-OniririTest7_Sizes:
     db $02,$02,$02,$02,$02,$02

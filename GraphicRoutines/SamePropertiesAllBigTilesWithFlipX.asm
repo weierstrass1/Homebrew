@@ -3,74 +3,66 @@ Main:
 	%GraphicRoutine(0,0,0,1,1,1,0,0,1,0)
 Tiles:
 .OniririTest_OniririTest0:
-	db $30,$31,$10,$11,$00,$01
+	db $40,$42,$20,$22,$00,$02
 .OniririTest_OniririTest1:
-	db $33,$34,$13,$14,$03,$04
+	db $44,$46,$24,$26,$04,$06
 .OniririTest_OniririTest2:
-	db $36,$37,$16,$17,$06,$07
+	db $48,$4A,$28,$2A,$08,$0A
 .OniririTest_OniririTest3:
-	db $39,$3A,$19,$1A,$09,$0A
+	db $4C,$4E,$2C,$2E,$0C,$0E
 .OniririTest_OniririTest4:
-	db $3C,$3D,$1C,$1D,$0C,$0D
+	db $A0,$A2,$80,$82,$60,$62
 .OniririTest_OniririTest5:
-	db $80,$81,$60,$61,$50,$51
+	db $A4,$A6,$84,$86,$64,$66
 .OniririTest_OniririTest6:
-	db $83,$84,$63,$64,$53,$54
-.OniririTest_OniririTest7:
-	db $86,$87,$66,$67,$56,$57
+	db $A8,$AA,$88,$8A,$68,$6A
 
 XDisplacements:
 .OniririTest_OniririTest0:
-	db $00,$08,$00,$08,$00,$08
+	db $00,$10,$00,$10,$00,$10
 .OniririTest_OniririTest1:
-	db $00,$08,$00,$08,$00,$08
+	db $00,$10,$00,$10,$00,$10
 .OniririTest_OniririTest2:
-	db $00,$08,$00,$08,$00,$08
+	db $00,$10,$00,$10,$00,$10
 .OniririTest_OniririTest3:
-	db $00,$08,$00,$08,$00,$08
+	db $00,$10,$00,$10,$00,$10
 .OniririTest_OniririTest4:
-	db $00,$08,$00,$08,$00,$08
+	db $00,$10,$00,$10,$00,$10
 .OniririTest_OniririTest5:
-	db $00,$08,$00,$08,$00,$08
+	db $00,$10,$00,$10,$00,$10
 .OniririTest_OniririTest6:
-	db $00,$08,$00,$08,$00,$08
-.OniririTest_OniririTest7:
-	db $00,$08,$00,$08,$00,$08
+	db $00,$10,$00,$10,$00,$10
 
 XDisplacementsFlipped:
 .OniririTest_OniririTest0:
-	db $08,$00,$08,$00,$08,$00
+	db $10,$00,$10,$00,$10,$00
 .OniririTest_OniririTest1:
-	db $08,$00,$08,$00,$08,$00
+	db $10,$00,$10,$00,$10,$00
 .OniririTest_OniririTest2:
-	db $08,$00,$08,$00,$08,$00
+	db $10,$00,$10,$00,$10,$00
 .OniririTest_OniririTest3:
-	db $08,$00,$08,$00,$08,$00
+	db $10,$00,$10,$00,$10,$00
 .OniririTest_OniririTest4:
-	db $08,$00,$08,$00,$08,$00
+	db $10,$00,$10,$00,$10,$00
 .OniririTest_OniririTest5:
-	db $08,$00,$08,$00,$08,$00
+	db $10,$00,$10,$00,$10,$00
 .OniririTest_OniririTest6:
-	db $08,$00,$08,$00,$08,$00
-.OniririTest_OniririTest7:
-	db $08,$00,$08,$00,$08,$00
+	db $10,$00,$10,$00,$10,$00
 
 YDisplacements:
 .OniririTest_OniririTest0:
-	db $00,$00,$F0,$F0,$E8,$E8
+	db $00,$00,$F0,$F0,$E0,$E0
 .OniririTest_OniririTest1:
-	db $00,$00,$F0,$F0,$E8,$E8
+	db $00,$00,$F0,$F0,$E0,$E0
 .OniririTest_OniririTest2:
-	db $00,$00,$F0,$F0,$E8,$E8
+	db $00,$00,$F0,$F0,$E0,$E0
 .OniririTest_OniririTest3:
-	db $00,$00,$F0,$F0,$E8,$E8
+	db $00,$00,$F0,$F0,$E0,$E0
 .OniririTest_OniririTest4:
-	db $00,$00,$F0,$F0,$E8,$E8
+	db $00,$00,$F0,$F0,$E0,$E0
 .OniririTest_OniririTest5:
-	db $00,$00,$F0,$F0,$E8,$E8
+	db $00,$00,$F0,$F0,$E0,$E0
 .OniririTest_OniririTest6:
-	db $00,$00,$F0,$F0,$E8,$E8
-.OniririTest_OniririTest7:
-	db $00,$00,$F0,$F0,$E8,$E8
+	db $00,$00,$F0,$F0,$E0,$E0
 
 namespace off

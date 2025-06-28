@@ -5,4 +5,6 @@ namespace Entities
     CurrentSpriteSlot: skip 2
     PreviousSlot: skip 128
     NextSlot: skip 128
+    GlobalGravity: skip 2
+    GlobalMaxFallSpeed: skip 2
 namespace off

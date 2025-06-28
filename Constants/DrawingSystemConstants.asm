@@ -5,7 +5,6 @@
 !PoseID_OniririTest_OniririTest4 = $0004
 !PoseID_OniririTest_OniririTest5 = $0005
 !PoseID_OniririTest_OniririTest6 = $0006
-!PoseID_OniririTest_OniririTest7 = $0007
 
 !Pose0000Routine = SamePropertiesAllBigTilesWithFlipX_Main
 !Pose0001Routine = SamePropertiesAllBigTilesWithFlipX_Main
@@ -14,4 +13,3 @@
 !Pose0004Routine = SamePropertiesAllBigTilesWithFlipX_Main
 !Pose0005Routine = SamePropertiesAllBigTilesWithFlipX_Main
 !Pose0006Routine = SamePropertiesAllBigTilesWithFlipX_Main
-!Pose0007Routine = SamePropertiesAllBigTilesWithFlipX_Main

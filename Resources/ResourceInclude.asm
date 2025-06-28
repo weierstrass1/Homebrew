@@ -1,33 +1,32 @@
-org $C08000
+!CurrentBank #= !CurrentBank+$010000
+org !CurrentBank
 Graphics:
-.0:
-    incbin "Graphics/GFXTest0.bin"
+.8:
+    incbin "Graphics/OniririTest1.bin"
     ..End
-.1:
-    incbin "Graphics/GFXTest1.bin"
+.9:
+    incbin "Graphics/OniririTest2.bin"
     ..End
-.2:
-    incbin "Graphics/GFXTest2.bin"
+.10:
+    incbin "Graphics/bgtest0.bin"
     ..End
-.3:
-    incbin "Graphics/GFXTest3.bin"
+.11:
+    incbin "Graphics/bgtest1.bin"
     ..End
-.4:
-    incbin "Graphics/GFXTest4.bin"
+.12:
+    incbin "Graphics/bgtest2.bin"
+        ..End
+.13:
+    incbin "Graphics/bgtest3.bin"
     ..End
-.5
-    incbin "Graphics/GFXTest5.bin"
-    ..End
-.6:
-    incbin "Graphics/GFXTest6.bin"
-    ..End
-.7:
-    incbin "Graphics/GFXTest7.bin"
-    ..End
+!CurrentBank #= !CurrentBank+$010000
+org !CurrentBank
 Palettes:
 .0
     incbin "Palettes/TestPal.bin"
     ..End
+!CurrentBank #= !CurrentBank+$010000
+org !CurrentBank
 Tilemaps:
 .0:
     incbin "Tilemaps/TestL1.bin"
@@ -38,3 +37,7 @@ Tilemaps:
 .2:
     incbin "Tilemaps/TestL3.bin"
     ..End
+.3:
+    incbin "Tilemaps/bgtestTilemap.bin"
+    ..End
+

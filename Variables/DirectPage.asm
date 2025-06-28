@@ -44,8 +44,10 @@ struct DirectPage !MainRAMBank
     .LastController1:                           skip 2
     .Controller1Down:                           skip 2
     .Controller1Up:                             skip 2
+    .Controller1Disable:                        skip 2
     .Controller2:                               skip 2
     .LastController2:                           skip 2
     .Controller2Down:                           skip 2
     .Controller2Up:                             skip 2
+    .Controller2Disable:                        skip 2
 endstruct

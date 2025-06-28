@@ -59,10 +59,12 @@ ResetHandlerEmu:
     STA.b DirectPage.LastController1
     STA.b DirectPage.Controller1Down
     STA.b DirectPage.Controller1Up
+    STA.b DirectPage.Controller1Disable
     STA.b DirectPage.Controller2
     STA.b DirectPage.LastController2
     STA.b DirectPage.Controller2Down
     STA.b DirectPage.Controller2Up
+    STA.b DirectPage.Controller2Disable
 
     TCD                       ;/             (mirror of $7E0000-FF)
     LDA #!Stack               ;\ Set the Stack Pointer
@@ -123,7 +125,6 @@ ResetHandlerEmu:
     JSR SelectOAMRoutine
     
     ;JSR HandleScrolling
-
 
     STZ.b DirectPage.GameLoopRunning
     

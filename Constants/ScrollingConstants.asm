@@ -1,0 +1,1 @@
+!ScrollDirSpeed =   $01C0

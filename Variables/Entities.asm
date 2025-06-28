@@ -4,8 +4,6 @@ struct Entity
     .Y: skip 3
     .XSpeed: skip 2
     .YSpeed: skip 2
-    .XAccel: skip 2
-    .YAccel: skip 2
     .HitboxSetIndex: skip 2
     .TerrainInteractionIndex: skip 2
     .State: skip 2
